@@ -4,13 +4,6 @@ A collection of blue team exercises conducted in my home SOC lab environment.
 Each exercise simulates real-world threat scenarios and is documented using 
 SOC-style workflows — from initial alert through investigation and response.
 
-## 📋 About This Repo
-
-These exercises are designed to build practical SOC analyst skills including 
-log analysis, threat detection, alert triage, and incident documentation. 
-Write-ups are structured to mirror how findings would be communicated in a 
-professional SOC environment.
-
 ## 📂 Exercises
 
 | Exercise | Scenario | Tools Used | Difficulty |
