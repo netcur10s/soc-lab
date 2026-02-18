@@ -1,1 +1,1 @@
-Soc-Lab
+# SOC Lab Writeup
