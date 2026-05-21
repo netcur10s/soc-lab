@@ -20,4 +20,4 @@
 -  Ran ART T1059.001 and detected it in Splunk via Sysmon EventCode=1
 -  Observed Bloodhound/SharpHound AD enumeration telemetry on DC-01
 -  Created first Splunk dashboard — Logon Activity
-   [Logon Activity Dashboard](/images/logonactivity.png)
+   ![Logon Activity Dashboard](/images/logonactivity.png)
