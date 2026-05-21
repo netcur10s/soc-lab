@@ -14,9 +14,9 @@
 
 | **Week** | **Topic** | **Difficulty** | **Status** |
 | --- | --- | --- | --- |
-| 1 | [Lab setup & Splunk fundamentals](docs/week1.md) | Beginner | ✓ Completed — May 13, 2026 |
-| 2 | [Windows event log analysis](docs/week2.md) | Beginner | ✓ Completed — May 19, 2026 |
-| 3 | [Active Directory attack detection](docs/week3.md) | Beginner-Intermediate | ✓ Completed — May 20, 2026 |
+| 1 | [Lab setup & Splunk fundamentals](week1.md) | Beginner | ✓ Completed — May 13, 2026 |
+| 2 | [Windows event log analysis](week2.md) | Beginner | ✓ Completed — May 19, 2026 |
+| 3 | [Active Directory attack detection](week3.md) | Beginner-Intermediate | ✓ Completed — May 20, 2026 |
 | 4 | Linux syslog & auditd | Intermediate | Not started |
 | 5 | Network detection (PFSense, DNS) | Intermediate | Not started |
 | 6 | Threat hunting with MITRE ATT&CK | Intermediate | Not started |
