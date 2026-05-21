@@ -59,20 +59,20 @@
 
 ### 4.2 Detection Queries
 
-| **Technique detected** | **SPL Query** | **Date** |
+| **Technique detected** | **SPL Query** |
 | --- | --- | --- |
-| Brute force (5+ failures in 60s) | `index=windows EventCode=4625 │ eval user=mvindex(Account_Name,1) │ bucket _time span=60s │ stats count by _time, user, Source_Network_Address, host │ where count >= 5 │ sort -count` | May 19, 2026 |
-| Brute force Sub_Status analysis | `index=windows EventCode=4625 │ eval user=mvindex(Account_Name,1) │ table _time, user, Source_Network_Address, Sub_Status │ sort -_time` | May 16, 2026 |
-| Account creation (clean fields) | `index=windows EventCode=4720 │ eval Who_Created=mvindex(Account_Name,0) │ eval Account_Created=mvindex(Account_Name,1) │ table _time, host, Who_Created, Account_Created` | May 19, 2026 |
-| Account deletion | `index=windows EventCode=4726 │ eval Who_Deleted=mvindex(Account_Name,0) │ eval Account_Deleted=mvindex(Account_Name,1) │ table _time, host, Who_Deleted, Account_Deleted` | May 19, 2026 |
-| Backdoor account + priv esc (correlated) | `index=windows (EventCode=4720 OR EventCode=4732) │ eval Computer=coalesce(Computer, host) │ eval EventType=case(EventCode=4720, "Account Created", EventCode=4732, "Added to Administrators") │ table _time, Computer, EventCode, EventType, Account_Name, SAM_Account_Name │ sort _time` | May 16, 2026 |
-| Kerberoasting (RC4 tickets) | `index=windows EventCode=4769 Ticket_Encryption_Type=0x17 │ table _time, host, Account_Name, Service_Name, Ticket_Encryption_Type │ sort -_time` | May 19, 2026 |
-| Lateral movement (network logons) | `index=windows EventCode=4624 Logon_Type=3 │ eval user=mvindex(Account_Name,1) │ table _time, host, user, Logon_Type, Source_Network_Address │ sort -_time` | May 19, 2026 |
-| Scheduled task persistence | `index=windows EventCode=4698 │ table _time, host, Account_Name, Task_Name │ sort -_time` | May 20, 2026 |
-| PowerShell execution | `index=windows EventCode=4688 (New_Process_Name=*powershell* OR New_Process_Name=*cmd*) │ table _time, host, Creator_Process_Name, New_Process_Name, Process_Command_Line` | May 13, 2026 |
-| PowerShell evasion flags | `index=windows EventCode=1 Image=*powershell* │ search CommandLine=*-enc* OR CommandLine=*-nop* OR CommandLine=*bypass* OR CommandLine=*IEX* │ table _time, host, ParentImage, CommandLine` | May 13, 2026 |
-| AD enumeration (Bloodhound) | `index=windows host=DC-01 EventCode=4624 Logon_Type=3 │ where _time >= relative_time(now(),"-10m") │ stats count by Account_Name, Workstation_Name │ sort -count │ where count > 10` | May 13, 2026 |
-| Lateral movement indicator | `index=windows EventCode=4624 │ stats dc(host) as machines_accessed, values(host) as hosts by Account_Name │ where machines_accessed > 1 │ sort -machines_accessed` | May 13, 2026 |
+| Brute force (5+ failures in 60s) | `index=windows EventCode=4625 │ eval user=mvindex(Account_Name,1) │ bucket _time span=60s │ stats count by _time, user, Source_Network_Address, host │ where count >= 5 │ sort -count` |
+| Brute force Sub_Status analysis | `index=windows EventCode=4625 │ eval user=mvindex(Account_Name,1) │ table _time, user, Source_Network_Address, Sub_Status │ sort -_time` |
+| Account creation (clean fields) | `index=windows EventCode=4720 │ eval Who_Created=mvindex(Account_Name,0) │ eval Account_Created=mvindex(Account_Name,1) │ table _time, host, Who_Created, Account_Created` |
+| Account deletion | `index=windows EventCode=4726 │ eval Who_Deleted=mvindex(Account_Name,0) │ eval Account_Deleted=mvindex(Account_Name,1) │ table _time, host, Who_Deleted, Account_Deleted` |
+| Backdoor account + priv esc (correlated) | `index=windows (EventCode=4720 OR EventCode=4732) │ eval Computer=coalesce(Computer, host) │ eval EventType=case(EventCode=4720, "Account Created", EventCode=4732, "Added to Administrators") │ table _time, Computer, EventCode, EventType, Account_Name, SAM_Account_Name │ sort _time` |
+| Kerberoasting (RC4 tickets) | `index=windows EventCode=4769 Ticket_Encryption_Type=0x17 │ table _time, host, Account_Name, Service_Name, Ticket_Encryption_Type │ sort -_time` |
+| Lateral movement (network logons) | `index=windows EventCode=4624 Logon_Type=3 │ eval user=mvindex(Account_Name,1) │ table _time, host, user, Logon_Type, Source_Network_Address │ sort -_time` |
+| Scheduled task persistence | `index=windows EventCode=4698 │ table _time, host, Account_Name, Task_Name │ sort -_time` |
+| PowerShell execution | `index=windows EventCode=4688 (New_Process_Name=*powershell* OR New_Process_Name=*cmd*) │ table _time, host, Creator_Process_Name, New_Process_Name, Process_Command_Line` |
+| PowerShell evasion flags | `index=windows EventCode=1 Image=*powershell* │ search CommandLine=*-enc* OR CommandLine=*-nop* OR CommandLine=*bypass* OR CommandLine=*IEX* │ table _time, host, ParentImage, CommandLine` |
+| AD enumeration (Bloodhound) | `index=windows host=DC-01 EventCode=4624 Logon_Type=3 │ where _time >= relative_time(now(),"-10m") │ stats count by Account_Name, Workstation_Name │ sort -count │ where count > 10` |
+| Lateral movement indicator | `index=windows EventCode=4624 │ stats dc(host) as machines_accessed, values(host) as hosts by Account_Name │ where machines_accessed > 1 │ sort -machines_accessed` |
 
 ## 5. Atomic Red Team Quick Reference
 
@@ -108,12 +108,12 @@
 | --- | --- | --- |
 | Splunk Web UI | 10.10.20.3 | http://10.10.20.3:8000 |
 | Nessus Web UI | 10.10.20.6 | https://10.10.20.6:8834 |
-| Wazuh Web UI | 10.10.20.5 | https://10.10.20.5 (check port) |
-| WS01 (ART machine) | 10.10.10.1 | RDP or VMware console |
-| WS02 | 10.10.10.2 | RDP or VMware console |
-| DC-01 | 10.10.10.3 | RDP or VMware console |
-| Kali Linux | 10.10.40.1 | VMware console or SSH |
-| Parrot OS | 10.10.40.2 | VMware console or SSH |
+| Wazuh Web UI | 10.10.20.5 | https://10.10.20.5 |
+| WS01 (ART machine) | 10.10.10.1 | RDP or Proxmox console |
+| WS02 | 10.10.10.2 | RDP or Proxmox console |
+| DC-01 | 10.10.10.3 | RDP or Proxmox console |
+| Kali Linux | 10.10.40.1 | Proxmox console or SSH |
+| Parrot OS | 10.10.40.2 | Proxmox console or SSH |
 | Metasploitable 2 | 10.10.30.1 | SSH (msfadmin/msfadmin) |
 | DVWA | 10.10.30.2 | http://10.10.30.2 (admin/password) |
 | WebGoat | 10.10.30.3 | http://10.10.30.3:8080/WebGoat |
@@ -138,21 +138,21 @@
 
 ## 9. Key Concepts Glossary
 
-| **Term** | **My definition** | **Date learned** |
-| --- | --- | --- |
-| SIEM | Security Information and Event Management — centralizes logs from across the environment for search, alerting, and correlation | May 13, 2026 |
-| IOC | Indicator of Compromise — specific artifact that signals a breach (IP, hash, domain, registry key) | May 13, 2026 |
-| TTP | Tactics, Techniques, Procedures — how attackers operate at a behavioral level, mapped to MITRE ATT&CK | May 13, 2026 |
-| Lateral movement | Attacker moving from one machine to another inside the network after initial compromise | May 13, 2026 |
-| Privilege escalation | Attacker gaining higher-level permissions than they currently have — e.g. from standard user to local admin or domain admin | May 16, 2026 |
-| SPL | Splunk Processing Language — pipeline-based query language for searching and transforming log data | May 13, 2026 |
-| Kerberoasting | Requesting Kerberos service tickets for service accounts then cracking them offline to get plaintext passwords. Detected via 4769 + Ticket_Encryption_Type=0x17 | May 13, 2026 |
-| Pass-the-hash | Using a stolen NTLM hash to authenticate without knowing the plaintext password | May 13, 2026 |
-| C2 | Command and Control — attacker infrastructure that communicates with malware on compromised machines | May 13, 2026 |
-| Threat hunting | Proactive search for attackers already in the environment using hypothesis-driven queries before alerts fire | May 13, 2026 |
-| Bloodhound | AD enumeration tool that maps attack paths to Domain Admin by querying LDAP — generates mass Type 3 logons on DC | May 13, 2026 |
-| GPO | Group Policy Object — configuration pushed from DC01 to domain-joined machines. Used to enforce audit policy, local group membership, and other settings domain-wide | May 16, 2026 |
-| Audit policy | Windows setting that controls which events get written to the Security event log. Must be enabled before events like 4720 will appear in Splunk | May 16, 2026 |
-| SPN | Service Principal Name — unique identifier for a service instance in AD. Required for Kerberos authentication and Kerberoasting attacks | May 19, 2026 |
-| mvindex | SPL function to extract individual values from a multivalue field by position. Used to split Account_Name into actor vs target | May 19, 2026 |
-| LSASS | Local Security Authority Subsystem Service — Windows process that stores credentials in memory. Target for credential dumping attacks | May 20, 2026 |
+| **Term** | **My definition** |
+| --- | | --- |
+| SIEM | Security Information and Event Management — centralizes logs from across the environment for search, alerting, and correlation |
+| IOC | Indicator of Compromise — specific artifact that signals a breach (IP, hash, domain, registry key) |
+| TTP | Tactics, Techniques, Procedures — how attackers operate at a behavioral level, mapped to MITRE ATT&CK |
+| Lateral movement | Attacker moving from one machine to another inside the network after initial compromise |
+| Privilege escalation | Attacker gaining higher-level permissions than they currently have — e.g. from standard user to local admin or domain admin |
+| SPL | Splunk Processing Language — pipeline-based query language for searching and transforming log data |
+| Kerberoasting | Requesting Kerberos service tickets for service accounts then cracking them offline to get plaintext passwords. Detected via 4769 + Ticket_Encryption_Type=0x17 |
+| Pass-the-hash | Using a stolen NTLM hash to authenticate without knowing the plaintext password |
+| C2 | Command and Control — attacker infrastructure that communicates with malware on compromised machines |
+| Threat hunting | Proactive search for attackers already in the environment using hypothesis-driven queries before alerts fire |
+| Bloodhound | AD enumeration tool that maps attack paths to Domain Admin by querying LDAP — generates mass Type 3 logons on DC |
+| GPO | Group Policy Object — configuration pushed from DC01 to domain-joined machines. Used to enforce audit policy, local group membership, and other settings domain-wide |
+| Audit policy | Windows setting that controls which events get written to the Security event log. Must be enabled before events like 4720 will appear in Splunk |
+| SPN | Service Principal Name — unique identifier for a service instance in AD. Required for Kerberos authentication and Kerberoasting attacks |
+| mvindex | SPL function to extract individual values from a multivalue field by position. Used to split Account_Name into actor vs target |
+| LSASS | Local Security Authority Subsystem Service — Windows process that stores credentials in memory. Target for credential dumping attacks |

@@ -96,62 +96,37 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 ### May 19, 2026
 
 - jsmith requires Event Log Readers group membership on DC01 for Splunk forwarder to read Security event logs
-
 - svc_sql service account created in AD as Kerberoasting target
-
-    SPN: MSSQLSvc/DC-01.lab.local:1433
-
-    Encryption forced to RC4 only (msDS-SupportedEncryptionTypes = 0x4)
-
+    - SPN: MSSQLSvc/DC-01.lab.local:1433
+    - Encryption forced to RC4 only (msDS-SupportedEncryptionTypes = 0x4)
 - Full audit policy configured via Default Domain Policy GPO on DC01:
-
-    Kerberos Service Ticket Operations: Success and Failure
-
-    Kerberos Authentication Service: Success and Failure
-
-    Credential Validation: Success and Failure
-
-    User Account Management: Success and Failure
-
-    Security Group Management: Success and Failure
-
-    Computer Account Management: Success and Failure
-
-    Directory Service Access: Success and Failure
-
-    Process Creation: Success
-
-    Audit Policy Change: Success and Failure
-
-- index=windows contains all AD machine logs (WS01, WS02, DC-01)
-
+    - Kerberos Service Ticket Operations: Success and Failure
+    - Kerberos Authentication Service: Success and Failure
+    - Credential Validation: Success and Failure
+    - User Account Management: Success and Failure
+    - Security Group Management: Success and Failure
+    - Computer Account Management: Success and Failure
+    - Directory Service Access: Success and Failure
+    - Process Creation: Success
+    - Audit Policy Change: Success and Failure
+- index=windows | stats count by host -> contains all AD machine logs (WS01, WS02, DC-01)
 - AD Health Monitor dashboard built in Splunk with 5 panels
 
 ### May 20, 2026
 
 - Enabled "Audit Other Object Access Events" via GPO for EventCode 4698 detection
-
-    Path: Computer Configuration → Policies → Windows Settings → Security Settings → Advanced Audit Policy Configuration → Audit Policies → Object Access → Audit Other Object Access Events
-
-    Configured: Success and Failure
-
+    - Path: Computer Configuration → Policies → Windows Settings → Security Settings → Advanced Audit Policy Configuration → Audit - Policies → Object Access → Audit Other Object Access Events
+    - Configured: Success and Failure
 - Ran ART T1053.005-2 successfully — created scheduled task named "spawn" on WS01
-
 - EventCode 4698 now logging to Splunk after audit policy change + gpupdate /force
-
 - AD Health Monitor dashboard expanded to 5 panels:
     1. Failed Logons Overtime
     2. Network Logons (Lateral Movement)
     3. New Accounts Created
     4. Kerberoasting Attempts (RC4 Tickets)
     5. Scheduled Tasks Created (new)
-
 - Attempted T1003.001-1 (ProcDump) — failed with "Access is denied" (expected for protected process)
-
 - Ran T1003.001-2 (comsvcs.dll method) successfully — LSASS dump completed but no Sysmon telemetry
-
 - Root cause: Sysmon EventCode 10 (Process Access) not configured or too restrictive by default
-
 - LSASS detection requires explicit Sysmon config for TargetImage=lsass.exe — revisit in Week 6 when tuning Sysmon
-
 - Dashboard field name typos fixed (Account_Name, Service_Name, Who_Created) — no mvindex needed, just spelling errors

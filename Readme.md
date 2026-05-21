@@ -33,12 +33,14 @@ This repository documents my journey building a home cybersecurity detection lab
 
 ### Active Dashboard
 **AD Health Monitor** — 5-panel Splunk dashboard tracking:
+
+![active directory dashboard in splunk](images/ad_dashboard.png)
+
 - Failed logons overtime
 - Network logons (lateral movement)
 - New accounts created
 - Kerberoasting attempts (RC4 tickets)
 - Scheduled tasks created
-![active directory dashboard in splunk](images/ad_dashboard.png)
 
 ## Tech Stack
 
@@ -99,7 +101,7 @@ This repository contains three core documents:
 - Windows Server 2022 ISO
 - Windows 11 ISO
 - Kali Linux ISO
-- 64GB+ RAM recommended
+- 96GB+ RAM recommended
 - 500GB+ storage
 
 ### Quick Start
