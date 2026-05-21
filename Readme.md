@@ -32,13 +32,13 @@ This repository documents my journey building a home cybersecurity detection lab
 ✅ **Scheduled Task Persistence** — EventCode 4698 detection  
 
 ### Active Dashboard
-![active directory dashboard in splunk](images/ad_dashboard.png)
 **AD Health Monitor** — 5-panel Splunk dashboard tracking:
 - Failed logons overtime
 - Network logons (lateral movement)
 - New accounts created
 - Kerberoasting attempts (RC4 tickets)
 - Scheduled tasks created
+![active directory dashboard in splunk](images/ad_dashboard.png)
 
 ## Tech Stack
 
@@ -48,25 +48,25 @@ This repository documents my journey building a home cybersecurity detection lab
 | **Endpoint Detection** | Sysmon, Wazuh |
 | **Attack Simulation** | Atomic Red Team |
 | **Vulnerability Scanning** | Nessus |
-| **Exploitation** | Metasploit, Kali Linux |
-| **Virtualization** | VMware Workstation |
+| **Exploitation** | Metasploit, Kali/Parrot OS |
+| **Virtualization** | Proxmox |
 | **Operating Systems** | Windows Server 2022, Windows 10, Ubuntu, Kali |
 
 ## Documentation Structure
 
 This repository contains three core documents:
 
-1. **[Doc1_Lab_Context.md](docs/Doc1_Lab_Context.md)** — Lab architecture, VM inventory, network topology
-2. **[Doc2_Curriculum_Tracker.md](docs/Doc2_Curriculum_Tracker.md)** — Weekly progress, session logs, learning objectives
-3. **[Doc3_Cheat_Sheet.md](docs/Doc3_Cheat_Sheet.md)** — Event ID reference, SPL queries, detection techniques, notes
+1. **[Lab_Context.md](docs/Doc1_Lab_Context.md)** — Lab architecture, VM inventory, network topology
+2. **[Curriculum_Tracker.md](docs/Doc2_Curriculum_Tracker.md)** — Weekly progress, session logs, learning objectives
+3. **[Cheat_Sheet.md](docs/Doc3_Cheat_Sheet.md)** — Event ID reference, SPL queries, detection techniques, notes
 
 ## 8-Week Curriculum
 
 | Week | Topic | Status | Key Achievements |
 |------|-------|--------|------------------|
-| 1 | Lab Setup & Splunk Fundamentals | ✅ Complete | Configured forwarders, resolved log routing, installed Sysmon |
-| 2 | Windows Event Log Analysis | ✅ Complete | Built detection queries, configured GPO audit policies, created alerts |
-| 3 | Active Directory Attack Detection | ✅ Complete | Detected Kerberoasting, lateral movement, persistence, built 5-panel dashboard |
+| 1 | [Lab setup & Splunk fundamentals](week1.md) | ✅ Complete | Configured forwarders, resolved log routing, installed Sysmon |
+| 2 | [Windows event log analysis](week2.md) | ✅ Complete | Built detection queries, configured GPO audit policies, created alerts |
+| 3 | [Active Directory Attack Detection](week3.md)  | ✅ Complete | Detected Kerberoasting, lateral movement, persistence, built 5-panel dashboard |
 | 4 | Linux syslog & auditd | 🔜 Next | — |
 | 5 | Network Detection (PFSense, DNS) | ⏳ Planned | — |
 | 6 | Threat Hunting with MITRE ATT&CK | ⏳ Planned | — |
