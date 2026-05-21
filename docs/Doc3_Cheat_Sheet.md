@@ -1,8 +1,4 @@
-# Cyber Detection Home Lab
-
 # Personal Cheat Sheet & Growing Reference
-
-*Doc 3 of 3  |  Last updated: May 20, 2026  |  Add to this as you learn — it grows with you*
 
 ## 1. Windows Event ID Cheat Sheet
 

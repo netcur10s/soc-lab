@@ -1,8 +1,4 @@
-# Cyber Detection Home Lab
-
 # Lab Context & Reference Document
-
-*Doc 1 of 3  |  Last updated: May 20, 2026*
 
 ## 1. Lab Overview
 

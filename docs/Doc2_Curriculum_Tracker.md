@@ -1,8 +1,4 @@
-# Cyber Detection Home Lab
-
 # Curriculum & Progress Tracker
-
-*Doc 2 of 3  |  Last updated: May 20, 2026*
 
 ## Current Status
 

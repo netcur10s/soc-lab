@@ -32,6 +32,7 @@ This repository documents my journey building a home cybersecurity detection lab
 ✅ **Scheduled Task Persistence** — EventCode 4698 detection  
 
 ### Active Dashboard
+![active directory dashboard in splunk](images/ad_dashboard.png)
 **AD Health Monitor** — 5-panel Splunk dashboard tracking:
 - Failed logons overtime
 - Network logons (lateral movement)
@@ -140,5 +141,3 @@ Common issues I encountered and resolved:
 - [ ] Advanced Sysmon configuration for process access monitoring
 - [ ] Multi-stage correlation alerting
 - [ ] Threat hunting dashboards
-
-## 📬 Contact
