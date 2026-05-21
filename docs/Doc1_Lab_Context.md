@@ -2,8 +2,6 @@
 
 ## 1. Lab Overview
 
-This document is the permanent reference for your home lab environment. It is uploaded into your Claude Project so that Claude can read your setup at the start of every session without you needing to re-explain it.
-
 **Purpose:** Build real-world SOC analyst and cyber detection skills through hands-on attack simulation, log analysis, and Splunk-based threat hunting.
 
 ## 2. Network Topology
