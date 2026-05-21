@@ -1,10 +1,10 @@
 # Lab Context & Reference Document
 
-## 1. Lab Overview
+## Lab Overview
 
 **Purpose:** Build real-world SOC analyst and cyber detection skills through hands-on attack simulation, log analysis, and Splunk-based threat hunting.
 
-## 2. Network Topology
+## Network Topology
 
 Your lab is segmented into four isolated subnets connected through a PFSense firewall, plus internet access via 192.168.40.13/24.
 
@@ -16,9 +16,9 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 | Attackers | 10.10.40.0/24 | Offensive platforms — Kali Linux and Parrot OS |
 | WAN / Firewall | 192.168.40.13/24 | PFSense — internet gateway and inter-segment routing |
 
-## 3. Virtual Machine Inventory
+## Virtual Machine Inventory
 
-### 3.1 Active Directory Lab — 10.10.10.0/24
+### Active Directory Lab — 10.10.10.0/24
 
 | **Hostname** | **IP Address** | **OS / Role** | **Notes** |
 | --- | --- | --- | --- |
@@ -26,7 +26,7 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 | WS02 | 10.10.10.2/24 | Windows Workstation | Standard endpoint — victim machine |
 | DC01 | 10.10.10.3/24 | Windows Server (Domain Controller) | Active Directory domain controller for lab.local domain |
 
-### 3.2 SOC Lab — 10.10.20.0/24
+### SOC Lab — 10.10.20.0/24
 
 | **Tool** | **IP Address** | **Role** | **Notes** |
 | --- | --- | --- | --- |
@@ -35,7 +35,7 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 | AtomicRed (remote) | 10.10.20.4/24 | Remote attack simulation endpoint | Use once comfortable with ART — for remote attack chains |
 | Wazuh | 10.10.20.5/24 | Host-based IDS / EDR | Endpoint detection and log forwarding complement to Splunk |
 
-### 3.3 Vulnerable Machines — 10.10.30.0/24
+### Vulnerable Machines — 10.10.30.0/24
 
 | **Machine** | **IP Address** | **Type** | **Notes** |
 | --- | --- | --- | --- |
@@ -43,20 +43,20 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 | DVWA | 10.10.30.2/24 | Web app — intentionally vulnerable | Damn Vulnerable Web App — SQL injection, XSS, file upload, etc. |
 | Webgoat | 10.10.30.3/24 | Web app — OWASP training | OWASP WebGoat — structured web vulnerability lessons |
 
-### 3.4 Attackers — 10.10.40.0/24
+### Attackers — 10.10.40.0/24
 
 | **Machine** | **IP Address** | **OS** | **Notes** |
 | --- | --- | --- | --- |
 | Kali Linux | 10.10.40.1/24 | Kali Linux | Primary offensive platform — Metasploit, Nmap, Burp Suite, etc. |
 | Parrot OS | 10.10.40.2/24 | Parrot Security OS | Alternative offensive platform — privacy and pentesting tools |
 
-## 4. Firewall
+## Firewall
 
 | **Device** | **WAN IP** | **LAN Gateway** | **Role** |
 | --- | --- | --- | --- |
 | PFSense | 192.168.40.13/24 | 10.10.10.254/24 | Routes traffic between all four segments and to the internet. |
 
-## 5. Atomic Red Team Setup
+## Atomic Red Team Setup
 
 | **Location** | **IP** | **Use case** | **When to use** |
 | --- | --- | --- | --- |
@@ -65,7 +65,7 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 
 📌 Start with WS01 local ART. Run a technique, then find it in Splunk. This is the core learning loop.
 
-## 6. Log Sources & Splunk Ingestion
+## Log Sources & Splunk Ingestion
 
 | **Log Source** | **Machine** | **Method** | **Status** |
 | --- | --- | --- | --- |
@@ -76,7 +76,7 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 | PFSense firewall logs | PFSense | Syslog → Splunk | [ ] Configure |
 | Metasploitable / Linux syslog | 10.10.30.1 | Syslog → Splunk | [ ] Configure |
 
-## 7. Installed Tools Reference
+## Installed Tools Reference
 
 | **Tool** | **Location** | **Purpose** |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ Your lab is segmented into four isolated subnets connected through a PFSense fir
 | DVWA | 10.10.30.2 | Vulnerable web app for web attack practice |
 | WebGoat | 10.10.30.3 | OWASP web vulnerability training |
 
-## 8. Session Notes
+## Session Notes
 
 ### May 19, 2026
 

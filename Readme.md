@@ -60,7 +60,7 @@ This repository contains three core documents:
 
 1. **[Lab_Context.md](docs/Doc1_Lab_Context.md)** — Lab architecture, VM inventory, network topology
 2. **[Curriculum_Tracker.md](docs/Doc2_Curriculum_Tracker.md)** — Weekly progress, session logs, learning objectives
-3. **[Cheat_Sheet.md](docs/Doc3_Cheat_Sheet.md)** — Event ID reference, SPL queries, detection techniques, notes
+3. **[Cheat_Sheet.md](docs/Doc1_Lab_Context.md)** — Event ID reference, SPL queries, detection techniques, notes
 
 ## 8-Week Curriculum
 
@@ -106,8 +106,8 @@ This repository contains three core documents:
 
 ### Quick Start
 1. Review [Lab Architecture](docs/Doc1_Lab_Context.md) for network design
-2. Follow [Week 1 Setup](docs/Doc2_Curriculum_Tracker.md#week-1-detail--completed-) for initial configuration
-3. Reference [Detection Queries](docs/Doc3_Cheat_Sheet.md#42-detection-queries) for Splunk searches
+2. Follow [Week 1 Setup](docs/week1.md) for initial configuration
+3. Reference [Detection Queries](docs/Doc3_Cheat_Sheet.md) for Splunk searches
 
 ## Key Learnings
 
