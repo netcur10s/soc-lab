@@ -137,10 +137,6 @@ The AD Health Monitor dashboard provides real-time visibility across five detect
 cyber-detection-lab/
 |
 +-- README.md                    <- You are here
-+-- docs/
-|   +-- lab-context.md           <- Network topology, VM inventory, tool reference
-|   +-- progress-tracker.md      <- 8-week curriculum progress and session logs
-|   +-- cheatsheet.md            <- Event ID reference, SPL library, troubleshooting notes
 |
 +-- queries/
 |   +-- foundational.spl         <- First-look and baseline queries
@@ -152,9 +148,8 @@ cyber-detection-lab/
 |   +-- powershell.spl           <- T1059.001 PowerShell execution detection
 |
 +-- images/
-|   +-- dashboard-screenshot.png <- AD Health Monitor dashboard (add your screenshot here)
-|   +-- network-diagram.png      <- Lab architecture diagram (optional)
-|
+|   +-- dashboard-screenshot.png <- AD Health Monitor dashboard
+|   +-- network-diagram.png      <- Lab architecture diagram
 +-- .gitignore                   <- Protects credentials and VM files
 ```
 
@@ -200,6 +195,6 @@ I built this lab because I believe the gap between certification knowledge and r
 
 If you are a recruiter, hiring manager, or fellow security practitioner, feel free to reach out.
 
-[LinkedIn](https://www.linkedin/in/vic1101) | [GitHub](https://www.github.com/netcur10s) | [Email](mailto:v.echevarria@proton.me)
+[LinkedIn](https://www.linkedin/in/vic1101) | [GitHub](https://www.github.com/netcur10s) | [v.echevarria@proton.me](mailto:v.echevarria@proton.me)
 
 *This reference is part of the Cyber Detection Home Lab portfolio. See [Readme.md](Readme.md) for the full lab overview and [Setup.md](Setup.md) for the complete build guide.*
