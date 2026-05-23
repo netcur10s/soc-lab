@@ -202,4 +202,4 @@ If you are a recruiter, hiring manager, or fellow security practitioner, feel fr
 
 [LinkedIn](https://www.linkedin/in/vic1101) | [GitHub](https://www.github.com/netcur10s) | [Email](mailto:v.echevarria@proton.me)
 
-*This reference is part of the Cyber Detection Home Lab portfolio. See [README.md](README.md) for the full lab overview and [SETUP.md](SETUP.md) for the complete build guide.*
+*This reference is part of the Cyber Detection Home Lab portfolio. See [Readme.md](Readme.md) for the full lab overview and [Setup.md](Setup.md) for the complete build guide.*

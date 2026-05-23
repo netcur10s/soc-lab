@@ -575,4 +575,4 @@ A complete troubleshooting log of every issue encountered during this build, wit
 
 [Back to Table of Contents](#table-of-contents)
 
-*This document is part of the Cyber Detection Home Lab portfolio. See [README.md](README.md) for the full lab overview.*
+*This document is part of the Cyber Detection Home Lab portfolio. See [Readme.md](Readme.md) for the full lab overview.*

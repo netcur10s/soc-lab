@@ -186,4 +186,4 @@ Allow a few minutes for Splunk to begin receiving the newly enabled event types.
 
 [Back to Table of Contents](#table-of-contents)
 
-*This reference is part of the Cyber Detection Home Lab portfolio. See [README.md](README.md) for the full lab overview and [SETUP.md](SETUP.md) for the complete build guide.*
+*This reference is part of the Cyber Detection Home Lab portfolio. See [Readme.md](Readme.md) for the full lab overview and [Setup.md](Setup.md) for the complete build guide.*
