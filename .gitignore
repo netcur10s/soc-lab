@@ -1,0 +1,49 @@
+# Virtual machine files
+*.vmdk
+*.vmx
+*.vmxf
+*.vmsd
+*.vmsn
+*.vmss
+*.nvram
+*.vmem
+*.vhd
+*.vhdx
+
+# Credential files
+*.key
+*.pem
+*.pfx
+*.p12
+passwords.txt
+credentials.txt
+secrets.*
+
+# Splunk configuration with sensitive data
+inputs.conf
+outputs.conf
+authentication.conf
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log files with raw event data
+*.log
+*.evtx
+
+# Personal notes with sensitive details
+personal-notes.txt
+lab-passwords.txt
+
+# Temporary files
+*.tmp
+*.temp
+~$*

@@ -1,145 +1,234 @@
-# Soc Analyst Home Lab
+# Cyber Detection Home Lab
+**SOC Analyst Portfolio | SIEM, Threat Detection, and Active Directory Attack Simulation**
 
-A hands-on cybersecurity detection lab built to develop real-world SOC analyst skills through attack simulation and SIEM-based threat hunting.
+**Certifications:** SSCP | CySA+ | PenTest+ | Security+ | Network+ | A+  
+**Education:** B.S. Cybersecurity and Information Assurance, Western Governors University  
+**Status:** Active and ongoing | Week 3 of 8 complete | Last updated: May 2026
 
-## Project Overview
+---
 
-This repository documents my journey building a home cybersecurity detection lab from scratch. The lab simulates a complete enterprise environment with Active Directory, vulnerable machines, and a full SIEM stack for detecting real attacks.
+## What This Repository Is
 
-**Core Goal:** Learn to detect real-world attack techniques mapped to the MITRE ATT&CK framework using Splunk, Sysmon, and Atomic Red Team.
+This repository documents a hands-on home lab I built to develop real-world SOC analyst skills through attack simulation and SIEM-based threat detection. Rather than following tutorials, I built a production-style segmented network, deployed enterprise tools, and practiced the full detection cycle: simulate an attack, generate telemetry, hunt the evidence in Splunk, and document what I found.
+
+The lab mirrors environments I expect to work in as a SOC Analyst. Every detection query in this repository has been tested against real attack simulations using Atomic Red Team. Every troubleshooting note represents a real problem I encountered and solved.
+
+---
 
 ## Lab Architecture
 
-![network diagram map](images/networkmap.png)
+```
+Internet
+    |
+PFSense Firewall (192.168.40.13/24)
+    |
+    +-- Active Directory Lab (10.10.10.0/24)
+    |       WS01 (10.10.10.1)  - Windows Workstation / Atomic Red Team
+    |       WS02 (10.10.10.2)  - Windows Workstation / Victim machine
+    |       DC01 (10.10.10.3)  - Windows Server / Domain Controller (lab.local)
+    |
+    +-- SOC Lab (10.10.20.0/24)
+    |       Splunk  (10.10.20.3)  - SIEM / Primary detection platform
+    |       Nessus  (10.10.20.6)  - Vulnerability scanner
+    |       AtomicRed (10.10.20.4) - Remote attack simulation
+    |       Wazuh   (10.10.20.5)  - Host-based IDS / EDR
+    |
+    +-- Vulnerable Machines (10.10.30.0/24)
+    |       Metasploitable 2 (10.10.30.1)
+    |       DVWA             (10.10.30.2)
+    |       WebGoat          (10.10.30.3)
+    |
+    +-- Attackers (10.10.40.0/24)
+            Kali Linux  (10.10.40.1)
+            Parrot OS   (10.10.40.2)
+```
 
-### Network Segments
+---
 
-| Segment | Subnet | Purpose | Hosts |
-|---------|--------|---------|-------|
-| **Active Directory Lab** | 10.10.10.0/24 | Primary victim network | WS01, WS02, DC01 |
-| **SOC Lab** | 10.10.20.0/24 | Detection & analysis tools | Splunk, Nessus, Wazuh |
-| **Vulnerable Machines** | 10.10.30.0/24 | Exploitation targets | Metasploitable 2, DVWA, WebGoat |
-| **Attackers** | 10.10.40.0/24 | Offensive platforms | Kali Linux, Parrot OS |
+## Skills Demonstrated
 
-## Current Capabilities
+**SIEM and Detection Engineering**
+- Deployed and configured Splunk with Universal Forwarders across multiple endpoints
+- Wrote and tested production-ready SPL detection queries for 6 MITRE ATT&CK techniques
+- Built a 5-panel AD Health Monitor dashboard with real-time threat visibility
+- Configured Splunk alerting with throttling and severity levels
+- Resolved real-world ingestion issues including index routing, clock skew, and field extraction
 
-### Detections Implemented (Week 3)
+**Windows Security and Event Log Analysis**
+- Analyzed and documented 15+ Windows Security Event IDs with detection context
+- Configured domain-wide audit policy via GPO for comprehensive log coverage
+- Deployed and configured Sysmon on all endpoints for enhanced telemetry
+- Correlated multi-event attack chains (e.g., 4720 account creation + 4732 privilege escalation)
+- Extracted meaning from multivalue SPL fields using mvindex and eval
 
-✅ **Brute Force Attacks** — EventCode 4625, Sub_Status analysis  
-✅ **Account Creation & Privilege Escalation** — EventCode 4720 + 4732 correlation  
-✅ **Kerberoasting** — EventCode 4769 with RC4 encryption detection  
-✅ **Lateral Movement** — EventCode 4624 Logon_Type=3 analysis  
-✅ **Scheduled Task Persistence** — EventCode 4698 detection  
+**Active Directory Attack Detection**
+- Detected and investigated Kerberoasting (T1558.003) via EventCode 4769 + RC4 tickets
+- Detected lateral movement (T1021.002) via Logon_Type=3 network logons
+- Detected brute force credential attacks (T1110.001) with Sub_Status analysis
+- Detected persistence via scheduled tasks (T1053.005) via EventCode 4698
+- Detected backdoor account creation and privilege escalation (T1136.001) via correlated 4720+4732
 
-### Active Dashboard
-**AD Health Monitor** — 5-panel Splunk dashboard tracking:
+**Lab Infrastructure and Engineering**
+- Designed and built a segmented four-subnet lab network
+- Configured PFSense firewall for inter-segment routing
+- Built NTP hierarchy (PFSense to DC01 to workstations) to solve log timing issues
+- Configured Restricted Groups GPO for local administrator management
+- Troubleshot and resolved 13+ documented technical issues end to end
 
-![active directory dashboard in splunk](images/ad_dashboard.png)
-
-- Failed logons overtime
-- Network logons (lateral movement)
-- New accounts created
-- Kerberoasting attempts (RC4 tickets)
-- Scheduled tasks created
-
-## Tech Stack
-
-| Category | Tools |
-|----------|-------|
-| **SIEM** | Splunk Enterprise |
-| **Endpoint Detection** | Sysmon, Wazuh |
-| **Attack Simulation** | Atomic Red Team |
-| **Vulnerability Scanning** | Nessus |
-| **Exploitation** | Metasploit, Kali/Parrot OS |
-| **Virtualization** | Proxmox |
-| **Operating Systems** | Windows Server 2022, Windows 10, Ubuntu, Kali |
-
-## Documentation Structure
-
-This repository contains three core documents:
-
-1. **[Lab_Context.md](docs/Doc1_Lab_Context.md)** — Lab architecture, VM inventory, network topology
-2. **[Curriculum_Tracker.md](docs/Doc2_Curriculum_Tracker.md)** — Weekly progress, session logs, learning objectives
-3. **[Cheat_Sheet.md](docs/Doc1_Lab_Context.md)** — Event ID reference, SPL queries, detection techniques, notes
-
-## 8-Week Curriculum
-
-| Week | Topic | Status | Key Achievements |
-|------|-------|--------|------------------|
-| 1 | [Lab setup & Splunk fundamentals](week1.md) | ✅ Complete | Configured forwarders, resolved log routing, installed Sysmon |
-| 2 | [Windows event log analysis](week2.md) | ✅ Complete | Built detection queries, configured GPO audit policies, created alerts |
-| 3 | [Active Directory Attack Detection](week3.md)  | ✅ Complete | Detected Kerberoasting, lateral movement, persistence, built 5-panel dashboard |
-| 4 | Linux syslog & auditd | 🔜 Next | — |
-| 5 | Network Detection (PFSense, DNS) | ⏳ Planned | — |
-| 6 | Threat Hunting with MITRE ATT&CK | ⏳ Planned | — |
-| 7 | SIEM Alerting & Correlation Rules | ⏳ Planned | — |
-| 8 | Capstone: Full Attack Chain Detection | ⏳ Planned | — |
+---
 
 ## MITRE ATT&CK Coverage
 
-| Technique ID | Technique Name | Tactic |
-|--------------|----------------|--------|
-| T1110.001 | Brute Force | Credential Access |
-| T1136.001 | Create Local Account | Persistence |
-| T1558.003 | Kerberoasting | Credential Access |
-| T1021.002 | SMB Lateral Movement | Lateral Movement |
-| T1053.005 | Scheduled Task | Persistence |
-| T1059.001 | PowerShell | Execution |
+| Technique ID | Name | Tactic | Detected | Detection Method |
+|---|---|---|---|---|
+| T1059.001 | PowerShell Execution | Execution | Yes | Sysmon EventCode 1, EventCode 4688 |
+| T1110.001 | Brute Force | Credential Access | Yes | EventCode 4625 with bucket analysis |
+| T1136.001 | Create Local Account | Persistence | Yes | EventCode 4720 correlated with 4732 |
+| T1558.003 | Kerberoasting | Credential Access | Yes | EventCode 4769 + Ticket_Encryption_Type=0x17 |
+| T1021.002 | SMB Lateral Movement | Lateral Movement | Yes | EventCode 4624 Logon_Type=3 |
+| T1053.005 | Scheduled Task Persistence | Persistence | Yes | EventCode 4698 |
+| T1078 | BloodHound AD Enumeration | Discovery | Observed | Mass Logon_Type=3 events on DC01 |
+| T1003.001 | LSASS Memory Dump | Credential Access | In Progress | Requires Sysmon EventCode 10 config (Week 6) |
+| T1048.003 | DNS Exfiltration | Exfiltration | Planned | Week 4+ |
 
-## Progress Metrics
+---
 
-**Total Lab Hours:** ~17 hours  
-**Detection Queries Built:** 12  
-**Techniques Detected:** 6  
-**Dashboard Panels:** 5  
-**Confidence Level:** 5/10
+## Detection Queries
 
-## Getting Started
+All tested SPL queries are in the [queries/](queries/) folder, organized by technique. Here are selected examples.
 
-### Prerequisites
-- Proxmox (or equivalent hypervisor)
-- Windows Server 2022 ISO
-- Windows 11 ISO
-- Kali Linux ISO
-- 96GB+ RAM recommended
-- 500GB+ storage
+**Kerberoasting Detection**
+```splunk
+index=windows EventCode=4769 Ticket_Encryption_Type=0x17
+| table _time, host, Account_Name, Service_Name, Ticket_Encryption_Type
+| sort -_time
+```
 
-### Quick Start
-1. Review [Lab Architecture](docs/Doc1_Lab_Context.md) for network design
-2. Follow [Week 1 Setup](docs/week1.md) for initial configuration
-3. Reference [Detection Queries](docs/Doc3_Cheat_Sheet.md) for Splunk searches
+**Brute Force with Time Bucketing**
+```splunk
+index=windows EventCode=4625
+| eval user=mvindex(Account_Name,1)
+| bucket _time span=60s
+| stats count by _time, user, Source_Network_Address, host
+| where count >= 5
+| sort -count
+```
 
-## Key Learnings
+**Backdoor Account + Privilege Escalation Correlation**
+```splunk
+index=windows (EventCode=4720 OR EventCode=4732)
+| eval Computer=coalesce(Computer, host)
+| eval EventType=case(EventCode=4720, "Account Created", EventCode=4732, "Added to Administrators")
+| table _time, Computer, EventCode, EventType, Account_Name, SAM_Account_Name
+| sort _time
+```
 
-### Technical Skills Gained
-- Splunk administration and SPL query development
-- Windows event log forensics and analysis
-- Group Policy configuration for security auditing
-- Sysmon deployment and log enrichment
-- Active Directory attack detection
-- MITRE ATT&CK framework mapping
+**Lateral Movement Indicator**
+```splunk
+index=windows EventCode=4624
+| stats dc(host) as machines_accessed, values(host) as hosts by Account_Name
+| where machines_accessed > 1
+| sort -machines_accessed
+```
 
-### Critical Insights
-- **Audit policies must be enabled** before logs appear (learned via EventCode 4720, 4698)
-- **Field name accuracy matters** in Splunk dashboards (typos break visualizations)
-- **Some detections require advanced configuration** (e.g., LSASS access needs Sysmon EventCode 10)
-- **Correlation queries are powerful** for detecting multi-stage attacks (4720→4732)
+See [queries/](queries/) for the full library with documentation.
 
-## Troubleshooting Reference
+---
 
-Common issues I encountered and resolved:
+## Dashboard
 
-| Issue | Root Cause | Solution |
-|-------|------------|----------|
-| Sysmon errorCode=5 | Permission issue | `sc config SplunkForwarder obj= LocalSystem` |
-| Event 4698 not appearing | Audit policy not enabled | Enable "Audit Other Object Access Events" via GPO |
-| LSASS dump no telemetry | Sysmon EventCode 10 not configured | Requires advanced Sysmon config (deferred to Week 6) |
+The AD Health Monitor dashboard provides real-time visibility across five detection categories.
+![Active Directory Health Monitor](images/ad_dashboard.png)
 
-## Future Enhancements
+---
 
-- [ ] Configure Wazuh integration with Splunk
-- [ ] Add Linux attack detection (Week 4)
-- [ ] Network traffic analysis with PFSense logs (Week 5)
-- [ ] Advanced Sysmon configuration for process access monitoring
-- [ ] Multi-stage correlation alerting
-- [ ] Threat hunting dashboards
+## Repository Structure
+
+```
+cyber-detection-lab/
+|
++-- README.md                    <- You are here
++-- docs/
+|   +-- lab-context.md           <- Network topology, VM inventory, tool reference
+|   +-- progress-tracker.md      <- 8-week curriculum progress and session logs
+|   +-- cheatsheet.md            <- Event ID reference, SPL library, troubleshooting notes
+|
++-- queries/
+|   +-- foundational.spl         <- First-look and baseline queries
+|   +-- brute-force.spl          <- T1110.001 credential attack detection
+|   +-- account-lifecycle.spl    <- T1136.001 backdoor account detection
+|   +-- kerberoasting.spl        <- T1558.003 Kerberos attack detection
+|   +-- lateral-movement.spl     <- T1021.002 network logon analysis
+|   +-- persistence.spl          <- T1053.005 scheduled task detection
+|   +-- powershell.spl           <- T1059.001 PowerShell execution detection
+|
++-- images/
+|   +-- dashboard-screenshot.png <- AD Health Monitor dashboard (add your screenshot here)
+|   +-- network-diagram.png      <- Lab architecture diagram (optional)
+|
++-- .gitignore                   <- Protects credentials and VM files
+```
+
+---
+
+## Learning Progress
+
+| Week | Topic | Status | Confidence |
+|---|---|---|---|
+| 1 | Lab Setup and Splunk Fundamentals | Complete | 3/10 |
+| 2 | Windows Event Log Analysis | Complete | 4/10 |
+| 3 | Active Directory Attack Detection | Complete | 5/10 |
+| 4 | Linux Syslog and Auditd | Not started | |
+| 5 | Network Detection with PFSense and DNS | Not started | |
+| 6 | Threat Hunting with MITRE ATT&CK | Not started | |
+| 7 | SIEM Alerting and Correlation Rules | Not started | |
+| 8 | Capstone: Full Attack Chain Detection | Not started | |
+
+**Total lab hours logged:** 16.5 hours across 4 sessions
+
+---
+
+## Tools and Technologies
+
+| Category | Tool |
+|---|---|
+| SIEM | Splunk Enterprise |
+| Telemetry | Sysmon, Windows Universal Forwarder |
+| Attack Simulation | Atomic Red Team (MITRE ATT&CK mapped) |
+| Active Directory | Windows Server 2019, lab.local domain |
+| Vulnerability Scanning | Nessus |
+| EDR | Wazuh |
+| Offensive Platforms | Kali Linux, Parrot OS |
+| Firewall | PFSense |
+| Query Language | SPL (Splunk Processing Language) |
+| Framework | MITRE ATT&CK |
+
+---
+
+## Documentation
+
+Full documentation lives in the [docs/](docs/) folder:
+
+- **[Lab Context](docs/lab-context.md)** - Complete network topology, VM inventory, and tool reference
+- **[Progress Tracker](docs/progress-tracker.md)** - Curriculum map, session logs, and confidence scores
+- **[Cheatsheet](docs/cheatsheet.md)** - Windows Event ID reference, SPL query library, Sysmon reference, and troubleshooting notes
+
+---
+
+## About Me
+
+I am a cybersecurity graduate from Western Governors University with a B.S. in Cybersecurity and Information Assurance, currently building hands-on SOC analyst skills through this lab while seeking my first role in security operations.
+
+**Certifications:** SSCP | CySA+ | PenTest+ | Security+ | Network+ | A+
+
+I built this lab because I believe the gap between certification knowledge and real detection work is best closed through doing. This repository is the evidence.
+
+---
+
+## Connect
+
+If you are a recruiter, hiring manager, or fellow security practitioner, feel free to reach out.
+
+[LinkedIn] | [GitHub Profile] | [Email]
+
+*Replace the bracketed links above with your actual contact information before publishing.*
