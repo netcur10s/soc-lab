@@ -3,8 +3,6 @@
 
 This document covers the complete build process for this detection lab from scratch. It is written as a reference for anyone who wants to understand how the environment was built, what decisions were made and why, and how to replicate it. Every configuration step here reflects something I actually ran into, fixed, and verified working.
 
----
-
 ## Table of Contents
 
 1. [Design Decisions and Network Architecture](#1-design-decisions-and-network-architecture)
@@ -19,8 +17,6 @@ This document covers the complete build process for this detection lab from scra
 10. [Atomic Red Team Installation](#10-atomic-red-team-installation)
 11. [Wazuh and Nessus Setup](#11-wazuh-and-nessus-setup)
 12. [Troubleshooting Reference](#12-troubleshooting-reference)
-
----
 
 ## 1. Design Decisions and Network Architecture
 
@@ -46,9 +42,8 @@ Second, it creates realistic detection scenarios. When an attacker moves from th
 
 PFSense is free, open source, and widely used in both home lab and production environments. It provides inter-segment routing, NAT for internet access, and a web UI for firewall rule management. It also becomes a log source in later weeks when we add PFSense syslog ingestion into Splunk.
 
-[Back to Table of Contents](#table-of-contents)
 
----
+[Back to Table of Contents](#table-of-contents)
 
 ## 2. Prerequisites and Software Versions
 
@@ -86,9 +81,8 @@ This lab runs on Proxmox. All machines are virtual.
 | Kali Linux | Latest rolling | https://www.kali.org/get-kali/ |
 | Parrot OS | Latest | https://www.parrotsec.org/download/ |
 
-[Back to Table of Contents](#table-of-contents)
 
----
+[Back to Table of Contents](#table-of-contents)
 
 ## 3. PFSense Firewall Setup
 
@@ -131,9 +125,8 @@ PFSense acts as the NTP server for the entire lab. This is important — all mac
 3. Note the PFSense LAN IP (10.10.10.254 or whichever subnet interface you configure as primary)
 4. All Windows machines will point to this address for time sync
 
-[Back to Table of Contents](#table-of-contents)
 
----
+[Back to Table of Contents](#table-of-contents)
 
 ## 4. Active Directory Domain Build
 
@@ -196,7 +189,6 @@ Set-ADUser svc_sql -Replace @{msDS-SupportedEncryptionTypes=4}
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 5. Splunk SIEM Deployment
 
@@ -233,7 +225,6 @@ Events from Windows machines should land in a dedicated index, not the default `
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 6. Sysmon Deployment
 
@@ -269,7 +260,6 @@ After restarting, Sysmon events will appear in Splunk under source `XmlWinEventL
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 7. Splunk Universal Forwarder Deployment
 
@@ -300,11 +290,13 @@ checkpointInterval = 5
 index = windows
 disabled = 0
 renderXml = true
+checkpointInterval = 5
 
 [WinEventLog://Application]
 index = windows
 disabled = 0
 renderXml = true
+checkpointInterval = 5
 
 [WinEventLog://Microsoft-Windows-Sysmon/Operational]
 index = windows
@@ -338,7 +330,6 @@ Restart the forwarder and verify events land in `index=windows`.
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 8. NTP Time Synchronization
 
@@ -382,7 +373,6 @@ w32tm /query /status
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 9. GPO and Audit Policy Configuration
 
@@ -460,7 +450,6 @@ Then run `gpupdate /force` on the affected workstation.
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 10. Atomic Red Team Installation
 
@@ -543,7 +532,6 @@ Use `-Scope Process` so the change only applies to the current session and does 
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 11. Wazuh and Nessus Setup
 
@@ -564,7 +552,6 @@ Wazuh provides host-based intrusion detection and endpoint log forwarding as a c
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 12. Troubleshooting Reference
 
@@ -587,7 +574,5 @@ A complete troubleshooting log of every issue encountered during this build, wit
 | T1003.001 no telemetry in Splunk | Sysmon EventCode 10 not configured for LSASS | Requires explicit Sysmon config for TargetImage=lsass.exe — revisit in Week 6 |
 
 [Back to Table of Contents](#table-of-contents)
-
----
 
 *This document is part of the Cyber Detection Home Lab portfolio. See [README.md](README.md) for the full lab overview.*

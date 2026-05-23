@@ -40,7 +40,6 @@ These are the core Event IDs for SOC detection work in a Windows Active Director
 
 
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 2. Logon Type Reference
 
@@ -54,8 +53,8 @@ Logon_Type is one of the most important fields in EventCode 4624 and 4625. Under
 | 7 | Unlock | Lock screen unlocked | Mostly noise — worth flagging only if failures occur at unusual hours |
 | 10 | Remote Interactive | RDP session | High value event — always investigate the source IP and whether the account normally uses RDP |
 
+
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 3. Sysmon Event ID Reference
 
@@ -77,8 +76,9 @@ Sysmon provides telemetry that Windows Security events alone cannot. These event
 
 **EventCode 10 and LSASS:** Detecting credential dumping via LSASS memory access requires explicit Sysmon configuration targeting TargetImage=lsass.exe. Default and community Sysmon configs often exclude this rule because it generates significant noise. It must be added deliberately when tuning for credential dumping detection.
 
+
 [Back to Table of Contents](#table-of-contents)
----
+
 
 ## 4. SPL Patterns and Field Notes
 
@@ -132,8 +132,8 @@ After running an attack simulation, use relative time to scope your search to ju
 | where _time >= relative_time(now(), "-5m")
 ```
 
+
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 5. MITRE ATT&CK Detection Mapping
 
@@ -151,8 +151,8 @@ Quick reference mapping MITRE ATT&CK techniques to the detection events and SPL 
 | T1003.001 | LSASS Memory Dump | Credential Access | Sysmon EventCode 10 | TargetImage=lsass.exe with suspicious GrantedAccess values. Requires advanced Sysmon config |
 | T1048.003 | DNS Exfiltration | Exfiltration | Sysmon EventCode 22 | Unusually long DNS query names, high query volume from a single process |
 
+
 [Back to Table of Contents](#table-of-contents)
----
 
 ## 6. Audit Policy Requirements
 
@@ -183,7 +183,7 @@ gpupdate /force
 
 Allow a few minutes for Splunk to begin receiving the newly enabled event types. If events still do not appear, verify the forwarder inputs.conf includes the relevant log channel and that the forwarder service has read permission on the Security event log.
 
+
 [Back to Table of Contents](#table-of-contents)
----
 
 *This reference is part of the Cyber Detection Home Lab portfolio. See [README.md](README.md) for the full lab overview and [SETUP.md](SETUP.md) for the complete build guide.*

@@ -5,15 +5,11 @@
 **Education:** B.S. Cybersecurity and Information Assurance, Western Governors University  
 **Status:** Active and ongoing | Week 3 of 8 complete | Last updated: May 2026
 
----
-
 ## What This Repository Is
 
 This repository documents a hands-on home lab I built to develop real-world SOC analyst skills through attack simulation and SIEM-based threat detection. Rather than following tutorials, I built a production-style segmented network, deployed enterprise tools, and practiced the full detection cycle: simulate an attack, generate telemetry, hunt the evidence in Splunk, and document what I found.
 
 The lab mirrors environments I expect to work in as a SOC Analyst. Every detection query in this repository has been tested against real attack simulations using Atomic Red Team. Every troubleshooting note represents a real problem I encountered and solved.
-
----
 
 ## Lab Architecture
 
@@ -45,8 +41,6 @@ PFSense Firewall (192.168.40.13/24)
             Parrot OS   (10.10.40.2)
 ```
 
----
-
 ## Skills Demonstrated
 
 **SIEM and Detection Engineering**
@@ -77,8 +71,6 @@ PFSense Firewall (192.168.40.13/24)
 - Configured Restricted Groups GPO for local administrator management
 - Troubleshot and resolved 13+ documented technical issues end to end
 
----
-
 ## MITRE ATT&CK Coverage
 
 | Technique ID | Name | Tactic | Detected | Detection Method |
@@ -92,8 +84,6 @@ PFSense Firewall (192.168.40.13/24)
 | T1078 | BloodHound AD Enumeration | Discovery | Observed | Mass Logon_Type=3 events on DC01 |
 | T1003.001 | LSASS Memory Dump | Credential Access | In Progress | Requires Sysmon EventCode 10 config (Week 6) |
 | T1048.003 | DNS Exfiltration | Exfiltration | Planned | Week 4+ |
-
----
 
 ## Detection Queries
 
@@ -135,15 +125,11 @@ index=windows EventCode=4624
 
 See [queries/](queries/) for the full library with documentation.
 
----
-
 ## Dashboard
 
 The AD Health Monitor dashboard provides real-time visibility across five detection categories.
 
 ![Active Directory Health Monitor](images/ad_dashboard.png)
-
----
 
 ## Repository Structure
 
@@ -172,8 +158,6 @@ cyber-detection-lab/
 +-- .gitignore                   <- Protects credentials and VM files
 ```
 
----
-
 ## Learning Progress
 
 | Week | Topic | Status | Confidence |
@@ -188,8 +172,6 @@ cyber-detection-lab/
 | 8 | Capstone: Full Attack Chain Detection | Not started | |
 
 **Total lab hours logged:** 16.5 hours across 4 sessions
-
----
 
 ## Tools and Technologies
 
@@ -206,18 +188,6 @@ cyber-detection-lab/
 | Query Language | SPL (Splunk Processing Language) |
 | Framework | MITRE ATT&CK |
 
----
-
-## Documentation
-
-Full documentation lives in the [docs/](docs/) folder:
-
-- **[Lab Context](docs/lab-context.md)** - Complete network topology, VM inventory, and tool reference
-- **[Progress Tracker](docs/progress-tracker.md)** - Curriculum map, session logs, and confidence scores
-- **[Cheatsheet](docs/cheatsheet.md)** - Windows Event ID reference, SPL query library, Sysmon reference, and troubleshooting notes
-
----
-
 ## About Me
 
 I am a cybersecurity graduate from Western Governors University with a B.S. in Cybersecurity and Information Assurance, currently building hands-on SOC analyst skills through this lab while seeking my first role in security operations.
@@ -226,12 +196,10 @@ I am a cybersecurity graduate from Western Governors University with a B.S. in C
 
 I built this lab because I believe the gap between certification knowledge and real detection work is best closed through doing. This repository is the evidence.
 
----
-
 ## Connect
 
 If you are a recruiter, hiring manager, or fellow security practitioner, feel free to reach out.
 
 [LinkedIn](https://www.linkedin/in/vic1101) | [GitHub](https://www.github.com/netcur10s) | [Email](mailto:v.echevarria@proton.me)
 
-*Replace the bracketed links above with your actual contact information before publishing.*
+*This reference is part of the Cyber Detection Home Lab portfolio. See [README.md](README.md) for the full lab overview and [SETUP.md](SETUP.md) for the complete build guide.*
