@@ -17,6 +17,8 @@ The lab mirrors environments I expect to work in as a SOC Analyst. Every detecti
 
 ## Lab Architecture
 
+![Lab Network Diagram](images/networkmap.png)
+
 ```
 Internet
     |
@@ -138,6 +140,7 @@ See [queries/](queries/) for the full library with documentation.
 ## Dashboard
 
 The AD Health Monitor dashboard provides real-time visibility across five detection categories.
+
 ![Active Directory Health Monitor](images/ad_dashboard.png)
 
 ---
@@ -229,6 +232,6 @@ I built this lab because I believe the gap between certification knowledge and r
 
 If you are a recruiter, hiring manager, or fellow security practitioner, feel free to reach out.
 
-[LinkedIn] | [GitHub Profile] | [Email]
+[LinkedIn](https://www.linkedin/in/vic1101) | [GitHub](https://www.github.com/netcur10s) | [Email](mailto:v.echevarria@proton.me)
 
 *Replace the bracketed links above with your actual contact information before publishing.*
