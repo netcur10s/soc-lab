@@ -74,4 +74,4 @@ index=windows EventCode=4732
 
 ---
 
-*Part of the [Cyber Detection Home Lab](https://github.com/netcur10s/cyber-detection-lab) query library*
+*Part of the [Cyber Detection Home Lab](https://github.com/netcur10s/soc-lab) query library*

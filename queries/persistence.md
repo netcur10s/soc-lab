@@ -74,4 +74,4 @@ index=windows EventCode=1 Image=*powershell*
 
 ---
 
-*Part of the [Cyber Detection Home Lab](https://github.com/netcur10s/cyber-detection-lab) query library*
+*Part of the [Cyber Detection Home Lab](https://github.com/netcur10s/soc-lab) query library*
