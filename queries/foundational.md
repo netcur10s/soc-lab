@@ -106,7 +106,7 @@ index=windows EventCode=4698
 
 ## 8. New Local Accounts
 
-Shows newly created user accounts. Account_Name is a multivalue field — `mvindex(Account_Name,0)` extracts the actor who created the account and `mvindex(Account_Name,1)` extracts the account that was created.
+Shows newly created user accounts. Account_Name is a multivalue field `mvindex(Account_Name,0)` extracts the actor who created the account and `mvindex(Account_Name,1)` extracts the account that was created.
 
 ```spl
 index=windows EventCode=4720

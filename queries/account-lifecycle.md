@@ -28,7 +28,7 @@ index=windows EventCode=4720
 
 ## 2. Account Deletion
 
-Detects user account deletion via EventCode 4726. On its own this may be routine — paired with account creation (4720) it shows the full account lifecycle. A rapid create and delete sequence is a red flag indicating an attacker created an account, used it, and cleaned up.
+Detects user account deletion via EventCode 4726. On its own this may be routine paired with account creation (4720) it shows the full account lifecycle. A rapid create and delete sequence is a red flag indicating an attacker created an account, used it, and cleaned up.
 
 ```spl
 index=windows EventCode=4726

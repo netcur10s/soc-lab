@@ -15,7 +15,7 @@
 
 ## 1. Brute Force — 5+ Failures in 60 Seconds
 
-Buckets events into 60-second windows and flags any account or source address generating 5 or more failures within the same window. The threshold of 5 in 60 seconds is a starting point — tune up or down based on your environment's baseline noise.
+Buckets events into 60-second windows and flags any account or source address generating 5 or more failures within the same window. The threshold of 5 in 60 seconds is a starting point tune up or down based on your environment's baseline noise.
 
 `mvindex(Account_Name,1)` extracts the target account from the multivalue Account_Name field. Without this, both the actor and target values stack in the same cell.
 
