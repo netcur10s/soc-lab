@@ -6,7 +6,7 @@
 
 ## Table of Contents
 
-1. [All Events — First Look](#1-all-events--first-look)
+1. [All Events First Look](#1-all-events--first-look)
 2. [All Hosts Logging to Splunk](#2-all-hosts-logging-to-splunk)
 3. [Verify Forwarder Connections](#3-verify-forwarder-connections)
 4. [All Logons by Host and Type](#4-all-logons-by-host-and-type)
@@ -18,7 +18,7 @@
 
 ---
 
-## 1. All Events — First Look
+## 1. All Events First Look
 
 Use this to get oriented at the start of any investigation. Returns the 50 most recent events across all indexes.
 

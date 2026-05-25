@@ -1,5 +1,5 @@
 # Lateral Movement Detection
-**MITRE ATT&CK:** [T1021.002 — Remote Services: SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002/)
+**MITRE ATT&CK:** [T1021.002 Remote Services: SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002/)
 **Detection Event:** EventCode 4624 (Successful Logon) with Logon_Type=3
 **Lab tested:** May 19, 2026 via `Invoke-AtomicTest T1021.002`
 
@@ -7,14 +7,14 @@
 
 ## Table of Contents
 
-1. [Network Logons — Lateral Movement](#1-network-logons--lateral-movement)
+1. [Network Logons Lateral Movement](#1-network-logons--lateral-movement)
 2. [Machines Accessed Per Account](#2-machines-accessed-per-account)
 3. [AD Enumeration Detection — BloodHound](#3-ad-enumeration-detection--bloodhound)
 4. [Explicit Credential Usage](#4-explicit-credential-usage)
 
 ---
 
-## 1. Network Logons — Lateral Movement
+## 1. Network Logons Lateral Movement
 
 Logon_Type=3 means authentication happened over the network via SMB or Windows shares rather than at the physical console. This is the primary logon type generated during lateral movement. Look for accounts authenticating to machines they do not normally access, especially from workstation-to-workstation rather than user-to-server.
 
@@ -42,7 +42,7 @@ index=windows EventCode=4624
 [Back to Table of Contents](#table-of-contents)
 
 
-## 3. AD Enumeration Detection — BloodHound
+## 3. AD Enumeration Detection BloodHound
 
 BloodHound and SharpHound enumerate Active Directory by querying LDAP across all domain objects, generating a large volume of Logon_Type=3 events on the Domain Controller in a short window. This query looks for accounts generating more than 10 network logons to DC01 within the last 10 minutes a pattern that is almost exclusively caused by AD enumeration tools in normal environments.
 

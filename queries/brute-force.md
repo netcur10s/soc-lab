@@ -1,5 +1,5 @@
 # Brute Force Detection
-**MITRE ATT&CK:** [T1110.001 — Brute Force: Password Guessing](https://attack.mitre.org/techniques/T1110/001/)
+**MITRE ATT&CK:** [T1110.001 Brute Force: Password Guessing](https://attack.mitre.org/techniques/T1110/001/)
 **Detection Event:** EventCode 4625 (Failed Logon)
 **Lab tested:** May 19, 2026 via `Invoke-AtomicTest T1110.001`
 
@@ -7,13 +7,13 @@
 
 ## Table of Contents
 
-1. [Brute Force — 5+ Failures in 60 Seconds](#1-brute-force--5-failures-in-60-seconds)
+1. [Brute Force 5+ Failures in 60 Seconds](#1-brute-force--5-failures-in-60-seconds)
 2. [Sub_Status Analysis](#2-substatus-analysis)
 3. [Failed Logon Volume Over Time](#3-failed-logon-volume-over-time)
 
 ---
 
-## 1. Brute Force — 5+ Failures in 60 Seconds
+## 1. Brute Force 5+ Failures in 60 Seconds
 
 Buckets events into 60-second windows and flags any account or source address generating 5 or more failures within the same window. The threshold of 5 in 60 seconds is a starting point tune up or down based on your environment's baseline noise.
 

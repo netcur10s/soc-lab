@@ -1,5 +1,5 @@
 # Persistence Detection
-**MITRE ATT&CK:** [T1053.005 — Scheduled Task/Job: Scheduled Task](https://attack.mitre.org/techniques/T1053/005/)
+**MITRE ATT&CK:** [T1053.005 Scheduled Task/Job: Scheduled Task](https://attack.mitre.org/techniques/T1053/005/)
 **Detection Event:** EventCode 4698 (Scheduled Task Created), EventCode 7045 (New Service Installed)
 **Lab tested:** May 20, 2026 via `Invoke-AtomicTest T1053.005 -TestNumbers 2` (task name: "spawn")
 **Prerequisite:** "Audit Other Object Access Events" must be enabled via GPO before EventCode 4698 will appear. See [SETUP.md](../SETUP.md) for configuration steps.
@@ -10,7 +10,7 @@
 
 1. [Scheduled Task Creation](#1-scheduled-task-creation)
 2. [New Service Installation](#2-new-service-installation)
-3. [PowerShell Execution — Process Creation](#3-powershell-execution--process-creation)
+3. [PowerShell Execution Process Creation](#3-powershell-execution--process-creation)
 4. [PowerShell Evasion Flags](#4-powershell-evasion-flags)
 
 ---
@@ -41,7 +41,7 @@ index=windows EventCode=7045
 [Back to Table of Contents](#table-of-contents)
 
 
-## 3. PowerShell Execution — Process Creation
+## 3. PowerShell Execution Process Creation
 
 Detects PowerShell or cmd.exe process creation via EventCode 4688. Requires "Audit Process Creation" audit policy enabled via GPO. Useful for catching malicious child processes launched from unexpected parents for example, a web server process spawning PowerShell, or a document viewer spawning cmd.exe.
 
