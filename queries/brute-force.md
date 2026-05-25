@@ -7,7 +7,7 @@
 ## Table of Contents
 
 1. [Brute Force 5+ Failures in 60 Seconds](#1-brute-force-5-failures-in-60-seconds)
-2. [Sub_Status Analysis](#2-substatus-analysis)
+2. [Sub_Status Analysis](#2-sub_status-analysis)
 3. [Failed Logon Volume Over Time](#3-failed-logon-volume-over-time)
 
 
