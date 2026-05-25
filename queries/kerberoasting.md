@@ -1,19 +1,17 @@
 # Kerberoasting Detection
-**MITRE ATT&CK:** [T1558.003 Steal or Forge Kerberos Tickets: Kerberoasting](https://attack.mitre.org/techniques/T1558/003/)
+**MITRE ATT&CK:** [T1558.003 - Steal or Forge Kerberos Tickets: Kerberoasting](https://attack.mitre.org/techniques/T1558/003/)
 **Detection Event:** EventCode 4769 (Kerberos Service Ticket Requested)
 **Lab tested:** May 19, 2026 via `Invoke-AtomicTest T1558.003 -TestNumbers 5 -PromptForInputArgs`
 **Lab setup:** `svc_sql` service account with SPN `MSSQLSvc/DC01.lab.local:1433`, RC4 forced via `msDS-SupportedEncryptionTypes=4`
 
----
 
 ## Table of Contents
 
-1. [Kerberoasting Detection RC4 Tickets](#1-kerberoasting-detection--rc4-tickets)
-2. [Volume Analysis Multiple RC4 Requests](#2-volume-analysis--multiple-rc4-requests)
+1. [Kerberoasting Detection RC4 Tickets](#1-kerberoasting-detection-rc4-tickets)
+2. [Volume Analysis Multiple RC4 Requests](#2-volume-analysis-multiple-rc4-requests)
 3. [Encryption Type Baseline](#3-encryption-type-baseline)
-4. [Kerberos TGT Requests Baseline](#4-kerberos-tgt-requests--baseline)
+4. [Kerberos TGT Requests Baseline](#4-kerberos-tgt-requests-baseline)
 
----
 
 ## 1. Kerberoasting Detection RC4 Tickets
 

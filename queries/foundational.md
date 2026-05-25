@@ -2,11 +2,10 @@
 **Purpose:** First-look and baseline queries for any investigation
 **Index:** `index=windows`
 
----
 
 ## Table of Contents
 
-1. [All Events First Look](#1-all-events--first-look)
+1. [All Events First Look](#1-all-events-first-look)
 2. [All Hosts Logging to Splunk](#2-all-hosts-logging-to-splunk)
 3. [Verify Forwarder Connections](#3-verify-forwarder-connections)
 4. [All Logons by Host and Type](#4-all-logons-by-host-and-type)
@@ -16,7 +15,6 @@
 8. [New Local Accounts](#8-new-local-accounts)
 9. [Events from Last 2 Minutes](#9-events-from-last-2-minutes)
 
----
 
 ## 1. All Events First Look
 

@@ -1,14 +1,14 @@
 # Account Lifecycle and Backdoor Detection
-**MITRE ATT&CK:** [T1136.001 Create Account: Local Account](https://attack.mitre.org/techniques/T1136/001/)
+**MITRE ATT&CK:** [T1136.001 - Create Account: Local Account](https://attack.mitre.org/techniques/T1136/001/)
 **Detection Events:** EventCode 4720 (account created), 4726 (account deleted), 4732 (member added to group)
 **Lab tested:** May 16–19, 2026 via `net user` commands and `Invoke-AtomicTest T1136.001`
 
 
 ## Table of Contents
 
-1. [Account Creation Clean Field Extraction](#1-account-creation--clean-field-extraction)
+1. [Account Creation Clean Field Extraction](#1-account-creation-clean-field-extraction)
 2. [Account Deletion](#2-account-deletion)
-3. [Backdoor Account and Privilege Escalation Correlated](#3-backdoor-account-and-privilege-escalation--correlated)
+3. [Backdoor Account and Privilege Escalation Correlated](#3-backdoor-account-and-privilege-escalation-correlated)
 4. [Member Added to Local Administrators Group](#4-member-added-to-local-administrators-group)
 
 

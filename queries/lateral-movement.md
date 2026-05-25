@@ -1,18 +1,16 @@
 # Lateral Movement Detection
-**MITRE ATT&CK:** [T1021.002 Remote Services: SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002/)
+**MITRE ATT&CK:** [T1021.002 - Remote Services: SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002/)
 **Detection Event:** EventCode 4624 (Successful Logon) with Logon_Type=3
 **Lab tested:** May 19, 2026 via `Invoke-AtomicTest T1021.002`
 
----
 
 ## Table of Contents
 
-1. [Network Logons Lateral Movement](#1-network-logons--lateral-movement)
+1. [Network Logons Lateral Movement](#1-network-logons-lateral-movement)
 2. [Machines Accessed Per Account](#2-machines-accessed-per-account)
-3. [AD Enumeration Detection — BloodHound](#3-ad-enumeration-detection--bloodhound)
+3. [AD Enumeration Detection BloodHound](#3-ad-enumeration-detection-bloodhound)
 4. [Explicit Credential Usage](#4-explicit-credential-usage)
 
----
 
 ## 1. Network Logons Lateral Movement
 
