@@ -33,7 +33,7 @@ index=windows EventCode=4625
 
 ## 2. Sub_Status Analysis
 
-Sub_Status tells you what is actually happening behind the failed logon — whether the attacker is enumerating usernames or spraying passwords against known accounts. This distinction changes your response priority.
+Sub_Status tells you what is actually happening behind the failed logon whether the attacker is enumerating usernames or spraying passwords against known accounts. This distinction changes your response priority.
 
 | Sub_Status | Meaning | Threat Signal |
 |---|---|---|

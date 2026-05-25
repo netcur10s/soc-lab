@@ -14,7 +14,7 @@
 
 ## 1. Account Creation — Clean Field Extraction
 
-Detects new local user account creation via EventCode 4720. Account_Name is a multivalue field in Windows Security events — `mvindex(Account_Name,0)` extracts the actor who performed the action and `mvindex(Account_Name,1)` extracts the account that was created. Without this extraction, both values stack in the same cell and the output is unreadable.
+Detects new local user account creation via EventCode 4720. Account_Name is a multivalue field in Windows Security events `mvindex(Account_Name,0)` extracts the actor who performed the action and `mvindex(Account_Name,1)` extracts the account that was created. Without this extraction, both values stack in the same cell and the output is unreadable.
 
 ```spl
 index=windows EventCode=4720

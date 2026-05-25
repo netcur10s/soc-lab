@@ -82,7 +82,7 @@ index=windows EventCode=4625
 
 ## 6. Processes Created via Sysmon
 
-Primary hunting event for execution detection. Sysmon EventCode 1 captures the full command line, parent process image path, and file hashes — significantly richer than EventCode 4688. Run this to see what has been executing across endpoints.
+Primary hunting event for execution detection. Sysmon EventCode 1 captures the full command line, parent process image path, and file hashes significantly richer than EventCode 4688. Run this to see what has been executing across endpoints.
 
 ```spl
 index=windows source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1

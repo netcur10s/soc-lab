@@ -17,7 +17,7 @@
 
 ## 1. Kerberoasting Detection — RC4 Tickets
 
-The primary Kerberoasting detection query. The key indicator is `Ticket_Encryption_Type=0x17` — RC4 encryption. Attack tools request RC4 tickets specifically because RC4 hashes are significantly faster to crack offline than AES. Legitimate modern systems use AES (0x12 or 0x18). Any RC4 service ticket request in an environment that has not explicitly configured RC4 should be treated as suspicious.
+The primary Kerberoasting detection query. The key indicator is `Ticket_Encryption_Type=0x17` RC4 encryption. Attack tools request RC4 tickets specifically because RC4 hashes are significantly faster to crack offline than AES. Legitimate modern systems use AES (0x12 or 0x18). Any RC4 service ticket request in an environment that has not explicitly configured RC4 should be treated as suspicious.
 
 ```spl
 index=windows EventCode=4769 Ticket_Encryption_Type=0x17
@@ -30,7 +30,7 @@ index=windows EventCode=4769 Ticket_Encryption_Type=0x17
 
 ## 2. Volume Analysis — Multiple RC4 Requests
 
-A single RC4 ticket request could be a legacy compatibility issue. Multiple RC4 requests from the same account in a short window is a much stronger Kerberoasting signal — attack tools typically request tickets for every service account with an SPN in a single run.
+A single RC4 ticket request could be a legacy compatibility issue. Multiple RC4 requests from the same account in a short window is a much stronger Kerberoasting signal attack tools typically request tickets for every service account with an SPN in a single run.
 
 ```spl
 index=windows EventCode=4769 Ticket_Encryption_Type=0x17
@@ -59,7 +59,7 @@ index=windows EventCode=4769
 
 ## 4. Kerberos TGT Requests — Baseline
 
-EventCode 4768 fires when a Kerberos Ticket Granting Ticket is requested — the initial authentication step before any service tickets are requested. Useful for baselining normal domain authentication patterns and identifying unusual accounts or off-hours requests.
+EventCode 4768 fires when a Kerberos Ticket Granting Ticket is requested the initial authentication step before any service tickets are requested. Useful for baselining normal domain authentication patterns and identifying unusual accounts or off-hours requests.
 
 ```spl
 index=windows EventCode=4768

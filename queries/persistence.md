@@ -17,7 +17,7 @@
 
 ## 1. Scheduled Task Creation
 
-Detects new scheduled task creation via EventCode 4698. Attackers use scheduled tasks to maintain persistent code execution — a task configured to run at startup, logon, or on a time interval survives reboots and continues executing even if the initial access vector is closed. Look for unexpected task names, tasks created outside of maintenance windows, or tasks created by user accounts rather than SYSTEM.
+Detects new scheduled task creation via EventCode 4698. Attackers use scheduled tasks to maintain persistent code execution a task configured to run at startup, logon, or on a time interval survives reboots and continues executing even if the initial access vector is closed. Look for unexpected task names, tasks created outside of maintenance windows, or tasks created by user accounts rather than SYSTEM.
 
 ```spl
 index=windows EventCode=4698
@@ -30,7 +30,7 @@ index=windows EventCode=4698
 
 ## 2. New Service Installation
 
-EventCode 7045 fires when a new service is installed on a Windows system. Services are an alternate persistence mechanism alongside scheduled tasks — a malicious service configured to start automatically will survive reboots. Watch for unusual service names, services with paths pointing to temp directories or user profile folders, and services running under unexpected accounts.
+EventCode 7045 fires when a new service is installed on a Windows system. Services are an alternate persistence mechanism alongside scheduled tasks a malicious service configured to start automatically will survive reboots. Watch for unusual service names, services with paths pointing to temp directories or user profile folders, and services running under unexpected accounts.
 
 ```spl
 index=windows EventCode=7045
@@ -43,7 +43,7 @@ index=windows EventCode=7045
 
 ## 3. PowerShell Execution — Process Creation
 
-Detects PowerShell or cmd.exe process creation via EventCode 4688. Requires "Audit Process Creation" audit policy enabled via GPO. Useful for catching malicious child processes launched from unexpected parents — for example, a web server process spawning PowerShell, or a document viewer spawning cmd.exe.
+Detects PowerShell or cmd.exe process creation via EventCode 4688. Requires "Audit Process Creation" audit policy enabled via GPO. Useful for catching malicious child processes launched from unexpected parents for example, a web server process spawning PowerShell, or a document viewer spawning cmd.exe.
 
 ```spl
 index=windows EventCode=4688 (New_Process_Name=*powershell* OR New_Process_Name=*cmd*)
@@ -60,7 +60,7 @@ Hunts for common PowerShell obfuscation and execution policy bypass flags in the
 | Flag | Purpose | Why Attackers Use It |
 |---|---|---|
 | `-enc` | Base64 encoded command | Hides the actual command content from casual inspection |
-| `-nop` | No profile | Faster, stealthier launch — skips profile script execution |
+| `-nop` | No profile | Faster, stealthier launch skips profile script execution |
 | `bypass` | Execution policy bypass | Explicitly overrides script execution restrictions |
 | `IEX` | Invoke-Expression | Downloads and executes code directly in memory without writing to disk |
 
