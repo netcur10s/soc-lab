@@ -45,7 +45,7 @@ index=windows EventCode=4726
 Correlates account creation (4720) and group membership changes (4732) in a single query, showing both events side by side ordered by time. This is the key detection for the attacker pattern of: create account → immediately add to Administrators group.
 
 Two field notes:
-- `coalesce(Computer, host)` handles the field name difference between DC and workstation events — DCs log to `Computer`, workstations log to `host`
+- `coalesce(Computer, host)` handles the field name difference between DC and workstation events DCs log to `Computer`, workstations log to `host`
 - `Member_Name` in 4732 events may be blank if the SID was not resolved at the time of logging. Use `SAM_Account_Name` from the correlated 4720 event instead
 
 ```spl
