@@ -5,15 +5,11 @@
 **Duration:** ~6 hours  
 **Confidence After:** 3/10 — Can complete tasks with guidance; improving with repetition
 
----
-
 ## Overview
 
 Week 1 focuses on building the **foundational infrastructure** for the entire lab. The goal is to get logs flowing from all endpoints into Splunk, ensure correct event routing, deploy Sysmon for process-level telemetry, and solve the inevitable timestamp synchronization issues that plague distributed labs.
 
 **Key Outcome:** All endpoints (WS01, WS02, DC01) are forwarding logs to Splunk in the correct index (windows), Sysmon is capturing process creation events (EventCode 1), and the time hierarchy is synchronized via NTP.
-
----
 
 ## Tasks Completed
 
@@ -24,10 +20,12 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
 **Steps:**
 1. Downloaded Splunk Universal Forwarder from splunk.com
 2. Installed on WS01, WS02, DC01 with deployment server pointing to Splunk indexer (10.10.20.3)
+![Splunk Forwarders Connected](images/screenshots/week1/inputs_recieving.png)
 3. Configured `inputs.conf` to forward:
    - Windows Security Event Log → index=windows
    - Sysmon logs → index=windows
    - Active Directory event logs → index=windows
+![Splunk Forwarders Connected](images/screenshots/week1/check_hosts.png)
 
 **Key Issue Encountered:**
 - **Problem:** Events were landing in `index=main` instead of `index=windows`
@@ -37,8 +35,6 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
 **Screenshot Placeholders:**
 - [ ] Screenshot: Splunk Settings → Data Inputs → Forwarding and Receiving (showing forwarder list)
 - [ ] Screenshot: Splunk Search → `index=windows | stats count by host` (showing all 3 hosts)
-
----
 
 ### Task 2: Install and Configure Sysmon
 
@@ -74,8 +70,6 @@ Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Select-Object Id 
 **Screenshot Placeholders:**
 - [ ] Screenshot: Windows Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon/Operational (showing EventCode 1 entries)
 - [ ] Screenshot: Splunk Search → `index=windows EventCode=1 | head 20` (showing process creation events with ParentImage, CommandLine)
-
----
 
 ### Task 3: Configure Network Time Protocol (NTP) Hierarchy
 
@@ -121,8 +115,6 @@ w32tm /resync /force
 - [ ] Screenshot: PowerShell → `w32tm /query /status` output (showing sync status on WS01)
 - [ ] Screenshot: Splunk → Dashboard showing timeline events in correct order (no backwards jumps)
 
----
-
 ### Task 4: Enable Audit Policy for Process Creation
 
 **Objective:** Ensure Windows logs process creation events (EventCode 4688) for detection analysis
@@ -139,8 +131,6 @@ w32tm /resync /force
 **Screenshot Placeholders:**
 - [ ] Screenshot: gpedit.msc → Audit Process Creation policy set to Success + Failure
 - [ ] Screenshot: Splunk → `index=windows EventCode=4688 | stats count by host`
-
----
 
 ### Task 5: Run First Detection Simulation (Atomic Red Team)
 
@@ -167,8 +157,6 @@ index=windows EventCode=1 Image="*powershell*"
 - [ ] Screenshot: Splunk → PowerShell execution event from ART (showing timestamp, Image, CommandLine)
 - [ ] Screenshot: Command prompt showing `Invoke-AtomicTest` execution
 
----
-
 ### Task 6: Observe Active Directory Enumeration (Bloodhound/SharpHound)
 
 **Objective:** Note that AD enumeration tools generate high volumes of network logons; establish baseline for Week 3 detection
@@ -182,8 +170,6 @@ index=windows EventCode=1 Image="*powershell*"
 
 **Screenshot Placeholders:**
 - [ ] Screenshot: Splunk → `index=windows EventCode=4624 Logon_Type=3 | stats count by Workstation_Name` (showing Bloodhound enumeration spike)
-
----
 
 ## Architecture Diagram
 
@@ -211,8 +197,6 @@ index=windows EventCode=1 Image="*powershell*"
         └─────┘    └────────┘
 ```
 
----
-
 ## Key Learnings
 
 ### Technical
@@ -227,8 +211,6 @@ index=windows EventCode=1 Image="*powershell*"
 - **Full pipeline testing is critical:** Running ART confirmed that logs actually flow from endpoint → forwarder → SIEM
 - **Documentation from day 1:** Recording issues (forwarder permissions, NTP skew) helps troubleshoot later
 
----
-
 ## Troubleshooting Reference
 
 | Issue | Cause | Fix |
@@ -238,8 +220,6 @@ index=windows EventCode=1 Image="*powershell*"
 | Log delays in Splunk (5-10min) | Clock skew across machines | Establish NTP hierarchy via group policy, sync to DC |
 | No Sysmon events | Sysmon not installed or misconfigured | Run `Sysmon64.exe -c sysmonconfig-export.xml` to update config |
 | EventCode 4688 not appearing | Process audit not enabled | Enable "Audit Process Creation" via GPO on DC, run gpupdate /force |
-
----
 
 ## Next Steps (Week 2)
 
@@ -251,15 +231,11 @@ Week 2 builds on this foundation to detect actual attacks:
 
 **Infrastructure is now ready for detection engineering.**
 
----
-
 ## Files & Resources
 
 - **Sysmon Config:** `sysmonconfig-export.xml` (stored locally, not in repo due to sensitive modifications)
 - **NTP Configuration:** Group Policy applied via DC01
 - **Splunk Configuration:** Deployment Server at 10.10.20.3 (internal SIEM only)
-
----
 
 **Week 1 Status:** ✅ COMPLETE  
 **Confidence:** 3/10 (foundation is solid, will improve with repetition)  
