@@ -20,21 +20,19 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
 **Steps:**
 1. Downloaded Splunk Universal Forwarder from splunk.com
 2. Installed on WS01, WS02, DC01 with deployment server pointing to Splunk indexer (10.10.20.3)
-![Splunk Forwarders Connected](images/screenshots/week1/inputs_recieving.png)
+   - Splunk Settings → Data Inputs → Forwarding and Receiving (showing forwarder list)
+   ![Splunk Forwarders Connected](../images/screenshots/week1/inputs_recieving.png)
+   - Splunk Search → `index=windows | stats count by host` (showing all 3 hosts)
+   ![Splunk Forwarders Connected](../images/screenshots/week1/check_hosts.png)
 3. Configured `inputs.conf` to forward:
    - Windows Security Event Log → index=windows
    - Sysmon logs → index=windows
    - Active Directory event logs → index=windows
-![Splunk Forwarders Connected](images/screenshots/week1/check_hosts.png)
 
 **Key Issue Encountered:**
 - **Problem:** Events were landing in `index=main` instead of `index=windows`
 - **Root Cause:** Conflicting `inputs.conf` files; forwarder was using default routing
 - **Solution:** Removed conflicting inputs.conf, re-deployed configuration, verified via `index=windows` search
-
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk Settings → Data Inputs → Forwarding and Receiving (showing forwarder list)
-- [ ] Screenshot: Splunk Search → `index=windows | stats count by host` (showing all 3 hosts)
 
 ### Task 2: Install and Configure Sysmon
 
