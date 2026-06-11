@@ -51,14 +51,14 @@ PFSense Firewall (192.168.40.13/24)
 
 | Week | Topic | Status | 
 |---|---|---|
-| [**Week 1**](./Week1-Lab-Setup) | Lab Setup & Splunk Fundamentals | ✅ Complete |
-| [**Week 2**](./Week2-Windows-Events) | Windows Event Log Analysis | ✅ Complete |
-| [**Week 3**](./Week3-Active-Directory) | Active Directory Attack Detection | ✅ Complete |
-| [**Week 4**](./Week4-Linux-Syslog) | Linux Syslog & Auditd | ✅ Complete |
-| [**Week 5**](./Week5-Network-Detection) | Network Detection (PFSense, DNS) | ✅ Complete |
-| [**Week 6**](./Week6-Threat-Hunting) | Threat Hunting with MITRE ATT&CK | ✅ Complete |
-| [**Week 7**](./Week7-SIEM-Alerting) | SIEM Alerting & Correlation Rules | 🔜 Next |
-| [**Week 8**](./Week8-Capstone) | Capstone: Full Attack Chain Detection | ⏳ Planned |
+| [**Week 1**](weeks/week1-lab-setup.md) | Lab Setup & Splunk Fundamentals | ✅ Complete |
+| [**Week 2**](weeks/week2-windows-events.md) | Windows Event Log Analysis | ✅ Complete |
+| [**Week 3**](weeks/week3-active-directory.md) | Active Directory Attack Detection | ✅ Complete |
+| [**Week 4**](weeks/week4-linux-syslog.md) | Linux Syslog & Auditd | ✅ Complete |
+| [**Week 5**](weeks/week5-network-detection.md) | Network Detection (PFSense, DNS) | ✅ Complete |
+| [**Week 6**](weeks/Week6-threat-hunting.md) | Threat Hunting with MITRE ATT&CK | ✅ Complete |
+| [**Week 7**](weeks/week7-siem-alerting.md) | SIEM Alerting & Correlation Rules | 🔜 Next |
+| [**Week 8**](weeks/Week8-capstone.md) | Capstone: Full Attack Chain Detection | ⏳ Planned |
 
 ## MITRE ATT&CK Coverage (Weeks 1–6)
 
