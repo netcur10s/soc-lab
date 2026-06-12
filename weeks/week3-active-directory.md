@@ -5,15 +5,11 @@
 **Duration:** ~4 hours  
 **Confidence After:** 6/10 — Multi-stage attack detection, PFSense pipeline, Splunk dashboards
 
----
-
 ## Overview
 
 Week 3 focuses on **AD-specific attacks** and introduces **network-layer detection**. We create a Kerberoastable service account, detect Kerberoasting attempts, lateral movement, and build the first multi-panel Splunk dashboard. Additionally, we configure PFSense to forward firewall logs to Splunk, enabling network-level threat detection.
 
 **Key Outcome:** Detect Kerberoasting (EventCode 4769 + RC4), lateral movement (EventCode 4624 Logon_Type=3), scheduled task persistence (EventCode 4698), and correlate DNS queries + network traffic for exfiltration detection.
-
----
 
 ## Active Directory Attacks Detected
 
@@ -23,8 +19,6 @@ Week 3 focuses on **AD-specific attacks** and introduces **network-layer detecti
 | **Lateral Movement** | 4624 | Logon_Type=3 from unusual source | Track Type 3 logons to identify movement |
 | **Scheduled Task Persistence** | 4698 | Task_Name in Security log | Alert on new scheduled tasks |
 | **Account Creation** | 4720/4732 | New account + Admin group | Correlate creation and escalation |
-
----
 
 ## Tasks Completed
 
@@ -64,9 +58,13 @@ index=windows EventCode=4769 Ticket_Encryption_Type=0x17
 
 **Result:** ✅ Detected RC4 ticket request (0x17) for svc_sql service account
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk EventCode 4769 showing Ticket_Encryption_Type=0x17 (RC4)
-- [ ] Screenshot: Alert firing when RC4 ticket detected
+**Detection Evidence:**
+
+![Kerberoasting Detection - RC4 Tickets](./screenshots/week3-01-kerberoasting-rc4.png)
+*Splunk EventCode 4769 showing Ticket_Encryption_Type=0x17 (RC4) requested for svc_sql service account - cryptographically weak and crackable offline*
+
+![Alert Triggered on RC4 Detection](./screenshots/week3-02-kerberoasting-alert.png)
+*Alert notification firing when Kerberoasting attack (RC4 ticket request) detected*
 
 ### Task 3: Detect Lateral Movement (EventCode 4624 Type 3)
 
@@ -87,8 +85,10 @@ index=windows EventCode=4624 Logon_Type=3
 
 **Result:** ✅ Can track lateral movement chains (machine A → machine B → machine C)
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk showing Type 3 logons with source and destination IPs
+**Lateral Movement Detection:**
+
+![Type 3 Network Logons - Lateral Movement](./screenshots/week3-03-lateral-movement-type3.png)
+*Splunk showing EventCode 4624 Logon_Type=3 (network logons) with source IP and destination machine - clear lateral movement pattern across infrastructure*
 
 ### Task 4: Enable and Detect Scheduled Task Persistence
 
@@ -118,9 +118,13 @@ index=windows EventCode=4698
 
 **Result:** ✅ Detected new scheduled task creation by attacker account
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: EventCode 4698 showing "spawn" task created by attacker
-- [ ] Screenshot: Task Scheduler showing malicious task properties
+**Scheduled Task Detection:**
+
+![EventCode 4698 - Scheduled Task Created](./screenshots/week3-04-eventcode-4698-task.png)
+*Splunk EventCode 4698 showing "spawn" scheduled task created by attacker account with full task path and properties*
+
+![Task Scheduler - Malicious Task Properties](./screenshots/week3-05-task-scheduler-spawn.png)
+*Windows Task Scheduler showing "spawn" malicious task scheduled to run at regular intervals*
 
 ### Task 5: Configure PFSense → Splunk Syslog Pipeline
 
@@ -140,9 +144,13 @@ index=windows EventCode=4698
 
 **Result:** ✅ PFSense logs now flowing into `index=pfsense` with parsed fields
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: PFSense Status → System Logs → Syslog configuration
-- [ ] Screenshot: Splunk Data Inputs → UDP 5014 showing pfsense sourcetype
+**PFSense → Splunk Configuration:**
+
+![PFSense Syslog Configuration](./screenshots/week3-06-pfsense-syslog-settings.png)
+*PFSense Status → System Logs → Settings showing syslog enabled, BSD format selected, destination set to Splunk 10.10.20.3:5014*
+
+![Splunk UDP Input - PFSense Sourcetype](./screenshots/week3-07-splunk-udp-pfsense.png)
+*Splunk Data Inputs → UDP showing port 5014 listening with sourcetype=pfsense*
 
 ### Task 6: Simulate and Detect DNS Exfiltration
 
@@ -178,10 +186,16 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 
 **Result:** ✅ Detected Base64-encoded subdomain + NXDOMAIN response pattern (data already exfiltrated in query)
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Sysmon EventCode 22 showing Base64-encoded DNS query
-- [ ] Screenshot: PFSense filterlog showing DNS traffic to attacker nameserver
-- [ ] Screenshot: Decoded Base64 revealing secret message
+**Dual-Source Exfiltration Detection:**
+
+![Sysmon EventCode 22 - Base64 DNS Query](./screenshots/week3-08-sysmon-ec22-base64-dns.png)
+*Sysmon EventCode 22 showing Base64-encoded subdomain being queried (e.g., "QWRtaW5QYXNzd29yZDEyMw==.attacker.com") with NXDOMAIN response*
+
+![PFSense Firewall Log - DNS Exfiltration Traffic](./screenshots/week3-09-pfsense-dns-exfil-traffic.png)
+*PFSense filterlog showing DNS traffic (port 53) from internal machine to attacker nameserver - network-layer evidence of exfiltration*
+
+![Decoded Secret Message](./screenshots/week3-10-decoded-secret-message.png)
+*Base64-decoded exfiltrated content revealing secret message extracted from DNS subdomain queries*
 
 ### Task 7: Build AD Health Monitor Dashboard
 
@@ -197,11 +211,13 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 
 **Result:** ✅ Operations team can see AD health at a glance; anomalies immediately visible
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Full AD Health Monitor dashboard showing all 5 panels
-- [ ] Screenshot: Single panel detail showing Kerberoasting detection spike
+**Dashboard Implementation:**
 
----
+![AD Health Monitor Dashboard - All 5 Panels](./screenshots/week3-11-ad-health-dashboard.png)
+*Splunk AD Health Monitor dashboard showing all 5 panels: Failed Logons trend, Network Logons/Lateral Movement, New Accounts, Kerberoasting Attempts, Scheduled Tasks*
+
+![Kerberoasting Detection Spike - Single Panel](./screenshots/week3-12-kerberoasting-panel-spike.png)
+*Individual dashboard panel zoomed in showing clear spike in Kerberoasting attempts (RC4 tickets) detected during attack simulation*
 
 ## Deferred Task: LSASS Credential Dumping (T1003.001)
 
@@ -211,8 +227,6 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 
 **Decision:** Defer to Week 6 when we revisit Sysmon advanced configuration
 
----
-
 ## Key Learnings
 
 - **Encryption type matters:** RC4 (0x17) vs AES (0x12) reveals attack technique
@@ -220,8 +234,6 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 - **Audit policies have gaps:** EventCode 4698 required specific GPO setting
 - **Network + endpoint correlation is powerful:** DNS exfiltration needs both Sysmon + firewall logs
 - **Dashboards provide operational visibility:** Analysts don't need to write queries every time
-
----
 
 ## Splunk Queries Built
 
@@ -232,8 +244,10 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 | Scheduled Task Persistence | Very High |
 | DNS Exfiltration (Base64 + NXDOMAIN) | High |
 
----
-
 **Week 3 Status:** ✅ COMPLETE (T1003.001 deferred to Week 6)  
-**Confidence:** 6/10  
-**Next Session:** June 2-3, 2026 (Week 4)
+**Confidence:** 6/10
+
+## Navigation
+
+← [Back to Main SOC Lab Overview](../README.md)  
+[Week 4: Linux Syslog →](../Week4-Linux-Syslog/README.md)

@@ -4,15 +4,11 @@
 **Lab Environment:** Segmented 4-subnet lab with Splunk SIEM, Sysmon on Windows endpoints, PFSense firewall  
 **Skill Level:** Intermediate — Applied baselining, anomaly detection, and behavioral analysis
 
----
-
 ## Overview
 
 This document captures **three advanced threat hunting techniques** developed and validated in a controlled lab environment. Each hunt uses hypothesis-driven methodology to detect behavioral anomalies that deviate from established baselines — the foundation of proactive threat hunting.
 
 **Key difference from detection engineering:** Detection engineering creates rules for *known* IOCs (Kerberoasting, brute force, etc.). Threat hunting *proactively searches* for unknown threats using behavioral anomalies and baseline deviations.
-
----
 
 ## Hunt #1: Anomalous Process Behavior — Obfuscated PowerShell Execution
 
@@ -94,8 +90,6 @@ User: lab\jsmith
 | PowerShell remoting (PSRemoting) | Low | PSRemoting uses network logons not cmd spawning |
 
 **Recommendation:** This hunt has **high signal, low noise** — any positive result warrants investigation.
-
----
 
 ## Hunt #2: Anomalous Parent-Child Process Relationships
 
@@ -187,8 +181,6 @@ User: lab\jsmith
 | Windows system process spawning child | Low | System/services already excluded |
 
 **Recommendation:** Medium confidence hunt — requires analyst review to determine context, but catches unusual chains effectively.
-
----
 
 ## Hunt #3: Off-Hours Authentication & Service Account Anomalies
 
@@ -284,8 +276,6 @@ Source_Network_Address: 192.168.1.50
 
 **Recommendation:** High-confidence hunt for off-hours auth. Service account interactive logon is *always* suspicious.
 
----
-
 ## Threat Hunting Control Center Dashboard
 
 ### Overview
@@ -335,8 +325,6 @@ All three hunts consolidated into a single **Splunk dashboard** for centralized 
 3. Escalate or document as false positive
 4. Update whitelist/exclusions if needed
 
----
-
 ## Key Learnings & Limitations
 
 ### What Worked Well
@@ -363,8 +351,6 @@ All three hunts consolidated into a single **Splunk dashboard** for centralized 
 - Obfuscation hunt will miss attacks that don't use PowerShell (direct binary execution, fileless)
 - Parent-child hunt can be evaded by using legitimate executables as launching pads
 
----
-
 ## Integration with Detection Engineering
 
 **Detection Engineering (Weeks 1–5):** Rule-based, known-IOC detection
@@ -380,8 +366,6 @@ All three hunts consolidated into a single **Splunk dashboard** for centralized 
 1. **Detection rules** for known attacks (high confidence, fast response)
 2. **Threat hunts** for unknown attacks (proactive, investigative)
 
----
-
 ## Recommendations for Production Deployment
 
 1. **Establish real baselines** on production systems (2–4 weeks of normal operation)
@@ -393,8 +377,6 @@ All three hunts consolidated into a single **Splunk dashboard** for centralized 
 4. **Monthly tuning** — review false positives, refine thresholds
 5. **Hunting rotation** — assign one analyst per week to run hunts proactively
 
----
-
 ## Portfolio Value
 
 This documentation demonstrates:
@@ -405,8 +387,6 @@ This documentation demonstrates:
 - ✓ Real-world detection engineering (lab-to-production thinking)
 
 **Suitable for:** SOC Analyst II/III interviews, Threat Hunting Engineer interviews, Detection Engineering roles
-
----
 
 ## Appendix: Quick Reference
 
@@ -443,7 +423,7 @@ index=windows EventCode=4624 host=DC01
 | sort -_time
 ```
 
----
+## Navigation
 
-**Document created:** June 10, 2026  
-**Lab version:** Week 6, complete
+← [Back to Main SOC Lab Overview](../README.md)  
+[Week 7: SIEM Alerting →](../Week7-SIEM-Alerting/README.md)

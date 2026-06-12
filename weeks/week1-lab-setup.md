@@ -24,11 +24,22 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
    - Windows Security Event Log → index=windows
    - Sysmon logs → index=windows
    - Active Directory event logs → index=windows
-   
+
 **Key Issue Encountered:**
 - **Problem:** Events were landing in `index=main` instead of `index=windows`
 - **Root Cause:** Conflicting `inputs.conf` files; forwarder was using default routing
 - **Solution:** Removed conflicting inputs.conf, re-deployed configuration, verified via `index=windows` search
+
+**Verification in Splunk:**
+
+![Splunk Forwarders Connected](./screenshots/week1-01-forwarder-settings.png)
+*Splunk Settings → Data Inputs → Forwarding and Receiving showing WS01, WS02, DC01 connected*
+
+Query all events flowing into windows index:
+
+![Windows Index Events by Host](./screenshots/week1-02-windows-index-count.png)
+*Splunk search: `index=windows | stats count by host` showing all 3 hosts forwarding successfully*
+
 
 ### Task 2: Install and Configure Sysmon
 
@@ -60,9 +71,15 @@ Get-Service | Select-Object Name, Status | findstr /I sysmon
 # Check event logs
 Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Select-Object Id | Group-Object Id | Sort-Object Count -Descending
 ```
-- Windows Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon/Operational (showing EventCode 1 entries)
-![]()
-- Splunk Search → `index=windows EventCode=1 | head 20` (showing process creation events with ParentImage, CommandLine)
+
+**Verification:**
+
+![Sysmon Events in Event Viewer](./screenshots/week1-03-event-viewer-sysmon.png)
+*Windows Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon/Operational showing EventCode 1 entries*
+
+![Sysmon Process Creation in Splunk](./screenshots/week1-04-splunk-sysmon-eventcode1.png)
+*Splunk search: `index=windows EventCode=1 | head 20` showing process creation with ParentImage, Image, CommandLine, User*
+
 
 ### Task 3: Configure Network Time Protocol (NTP) Hierarchy
 
@@ -82,7 +99,7 @@ Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Select-Object Id 
 **Steps on DC01 (Windows Server 2022):**
 ```powershell
 # Set DC01 to sync with PFSense as NTP source
-w32tm /config /manualpeerlist:"10.10.1.254" /syncfromflags:manual /reliable:yes /update
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\w32time\Parameters" /v NtpServer /d "10.10.20.254,0x9" /f
 
 # Force time sync
 net stop w32time
@@ -92,9 +109,8 @@ w32tm /resync /force
 # Verify sync
 w32tm /query /status
 ```
-![running command w32tm /query /status](../images/screenshots/week1/w32tm_status.png)
 
-**Steps on WS01, WS02 (Windows 11):**
+**Steps on WS01, WS02 (Windows 10/11):**
 ```powershell
 # Set to sync with DC01
 w32tm /config /manualpeerlist:"10.10.10.3" /syncfromflags:manual /reliable:yes /update
@@ -102,9 +118,17 @@ net stop w32time
 net start w32time
 w32tm /resync /force
 ```
-![splunk time line in correct order](../images/screenshots/week1/splunk_timeline_in_order.png)
+
+**Verification:**
+
+![NTP Status on WS01](./screenshots/week1-05-w32tm-query-status.png)
+*PowerShell: `w32tm /query /status` showing Leap Indicator, Stratum, Reference Clock, Precision*
+
+![Splunk Timeline with Correct Order](./screenshots/week1-06-splunk-timeline-correct.png)
+*Splunk dashboard showing events in correct chronological order (no backwards time jumps)*
 
 **Result:** All machines now within 1 second of each other; Splunk events appear in correct chronological order.
+
 
 ### Task 4: Enable Audit Policy for Process Creation
 
@@ -113,14 +137,20 @@ w32tm /resync /force
 **Steps:**
 1. Opened `gpedit.msc` on DC01
 2. Navigated to: Computer Configuration → Policies → Windows Settings → Security Settings → Advanced Audit Policy Configuration → Audit Policies → Detailed Tracking → Audit Process Creation
-![enable audit process creation](../images/screenshots/week1/audit_process_creation.png)
 3. Set to: **Success and Failure**
 4. Applied group policy with: `gpupdate /force`
 5. Verified logs appearing on WS01, WS02
 
-**Result:** EventCode 4688 now visible in Splunk for all processes spawned on domain-joined machines.
+**Configuration:**
 
-![EventCode 4688 now visible in Splunk](../images/screenshots/week1/eventcode_4688_visible.png)
+![Group Policy Editor - Audit Process Creation](./screenshots/week1-07-gpedit-audit-policy.png)
+*Group Policy Management Editor showing "Audit Process Creation" configured for Success and Failure*
+
+**Result in Splunk:**
+
+![EventCode 4688 in Splunk](./screenshots/week1-08-splunk-eventcode4688.png)
+*Splunk search: `index=windows EventCode=4688 | stats count by host` showing process audit on all domain machines*
+
 
 ### Task 5: Run First Detection Simulation (Atomic Red Team)
 
@@ -134,14 +164,17 @@ w32tm /resync /force
    - CommandLine: `powershell.exe -NoProfile -Command "Write-Host 'Hello from Atomic Red Team'"`
    - ParentImage: `C:\Windows\explorer.exe`
 
-**Result:** ✅ Full detection pipeline working end-to-end: Attack → Sysmon captures → Forwarder sends → Splunk indexes → Searchable
+**Attack Simulation:**
 
-**Splunk Query Used:**
-```spl
-index=windows EventCode=1 Image="*powershell*" 
-| table _time, host, Image, ParentImage, CommandLine, User 
-| sort -_time
-```
+![Atomic Red Team PowerShell Execution](./screenshots/week1-09-art-powershell-command.png)
+*PowerShell: `Invoke-AtomicTest T1059.001 -TestNumbers 1` running on WS01*
+
+**Detection Result:**
+
+![PowerShell Execution Detected in Splunk](./screenshots/week1-10-splunk-powershell-detection.png)
+*Splunk showing Sysmon EventCode 1: powershell.exe spawned by explorer.exe with full CommandLine visibility*
+
+**Result:** ✅ Full detection pipeline working end-to-end: Attack → Sysmon captures → Forwarder sends → Splunk indexes → Searchable
 
 ### Task 6: Observe Active Directory Enumeration (Bloodhound/SharpHound)
 
@@ -152,9 +185,13 @@ index=windows EventCode=1 Image="*powershell*"
 - DC01 received 10,000+ EventCode 4624 (successful logons) from same source in 5 minutes
 - Result: EventCode 4624 Logon_Type=3 (network) flood from enumeration
 
-![blood hound enumeartion detected](../images/screenshots/week1/bloudhound_enumeration_detected.png)
+**Baseline Observation:**
+
+![Bloodhound Enumeration Baseline](./screenshots/week1-11-splunk-bloodhound-spike.png)
+*Splunk: `index=windows EventCode=4624 Logon_Type=3 | stats count by Workstation_Name` showing massive enumeration activity from single source*
 
 **Significance:** This is a **false positive baseline** that we'll filter out in Week 3 when building AD detection rules.
+
 
 ## Architecture Diagram
 
@@ -182,6 +219,7 @@ index=windows EventCode=1 Image="*powershell*"
         └─────┘    └────────┘
 ```
 
+
 ## Key Learnings
 
 ### Technical
@@ -196,6 +234,7 @@ index=windows EventCode=1 Image="*powershell*"
 - **Full pipeline testing is critical:** Running ART confirmed that logs actually flow from endpoint → forwarder → SIEM
 - **Documentation from day 1:** Recording issues (forwarder permissions, NTP skew) helps troubleshoot later
 
+
 ## Troubleshooting Reference
 
 | Issue | Cause | Fix |
@@ -205,6 +244,7 @@ index=windows EventCode=1 Image="*powershell*"
 | Log delays in Splunk (5-10min) | Clock skew across machines | Establish NTP hierarchy via group policy, sync to DC |
 | No Sysmon events | Sysmon not installed or misconfigured | Run `Sysmon64.exe -c sysmonconfig-export.xml` to update config |
 | EventCode 4688 not appearing | Process audit not enabled | Enable "Audit Process Creation" via GPO on DC, run gpupdate /force |
+
 
 ## Next Steps (Week 2)
 
@@ -216,12 +256,13 @@ Week 2 builds on this foundation to detect actual attacks:
 
 **Infrastructure is now ready for detection engineering.**
 
-## Files & Resources
-
-- **Sysmon Config:** `sysmonconfig-export.xml` (stored locally, not in repo due to sensitive modifications)
-- **NTP Configuration:** Group Policy applied via DC01
-- **Splunk Configuration:** Deployment Server at 10.10.20.3 (internal SIEM only)
 
 **Week 1 Status:** ✅ COMPLETE  
-**Confidence:** 3/10 (foundation is solid, will improve with repetition)  
-**Next Session:** May 16, 2026 (Week 2)
+**Confidence:** 3/10 (foundation is solid, will improve with repetition)
+
+---
+
+## Navigation
+
+← [Back to Main SOC Lab Overview](../README.md)  
+[Week 2: Windows Event Log Analysis →](../Week2-Windows-Events/README.md)

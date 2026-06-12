@@ -5,15 +5,11 @@
 **Duration:** ~4.5 hours  
 **Confidence After:** 4/10 — GPO audit policy, EventCode detection, Splunk alerting
 
----
-
 ## Overview
 
 Week 2 transitions from **infrastructure** to **threat detection**. We build core detection queries for Windows event IDs, simulate attacks using Atomic Red Team, and create our first automated Splunk alerts.
 
 **Key Outcome:** Detect brute force attacks (EventCode 4625), account creation (EventCode 4720/4732), and configure alert rules that fire automatically.
-
----
 
 ## Core Windows Event IDs Reference
 
@@ -31,8 +27,6 @@ Week 2 transitions from **infrastructure** to **threat detection**. We build cor
 - `0xC0000064` = Username not found (attacker enumerating users)
 - `0xC000006A` = Wrong password (credential attack)
 
----
-
 ## Tasks Completed
 
 ### Task 1: Build Windows Event ID Cheat Sheet
@@ -45,10 +39,10 @@ Created comprehensive reference documenting all critical EventCodes with:
 
 **Documented 8 core Event IDs** with practical examples.
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk search showing EventCode 4625 failures with Sub_Status breakdown
+**Event ID Reference in Splunk:**
 
----
+![EventCode 4625 with Sub_Status Breakdown](./screenshots/week2-01-eventcode-4625-substatus.png)
+*Splunk search showing failed logon events (EventCode 4625) broken down by Sub_Status codes - 0xC0000064 (username not found) vs 0xC000006A (wrong password)*
 
 ### Task 2: Simulate Brute Force Attack with Atomic Red Team
 
@@ -84,11 +78,13 @@ index=windows EventCode=4625
 
 **Result:** ✅ Brute force detected with high confidence (0 false positives expected)
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk search showing brute force detection (count=10 from single source)
-- [ ] Screenshot: Sub_Status breakdown showing `0xC000006A` (wrong password attempts)
+**Detection Results:**
 
----
+![Brute Force Detection - Failed Logon Count](./screenshots/week2-02-brute-force-count.png)
+*Splunk search results showing 10+ failed login attempts from single source in 60-second window*
+
+![Sub_Status Code Analysis](./screenshots/week2-03-substatus-credential-attack.png)
+*Sub_Status breakdown showing 0xC000006A (wrong password attempts) indicating credential attack vs username enumeration*
 
 ### Task 3: Configure Group Policy for Audit Policy
 
@@ -106,11 +102,13 @@ index=windows EventCode=4625
 
 **Result:** All domain-joined machines now log EventCode 4720 (account creation), 4625 (failed logons), 4769 (Kerberos)
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Group Policy Management → Default Domain Policy → Audit Policies configuration
-- [ ] Screenshot: Splunk → `index=windows EventCode=4720 | stats count by host` (showing accounts created on DC01)
+**Configuration & Results:**
 
----
+![Group Policy Audit Policy Configuration](./screenshots/week2-04-gpo-audit-policy.png)
+*Group Policy Management Editor showing Advanced Audit Policy Configuration with Account Management and Logon/Logoff enabled for Success + Failure*
+
+![EventCode 4720 Flowing to Splunk](./screenshots/week2-05-eventcode-4720-accounts.png)
+*Splunk search: `index=windows EventCode=4720 | stats count by host` showing new user accounts logged on all domain machines*
 
 ### Task 4: Simulate Account Creation & Privilege Escalation
 
@@ -145,11 +143,13 @@ index=windows (EventCode=4720 OR EventCode=4732)
 
 **Result:** ✅ Detected account creation + privilege escalation in single correlated view
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk correlated view showing EventCode 4720 + 4732 sequence
-- [ ] Screenshot: Account_Name field showing both creator and created account
+**Correlated Detection:**
 
----
+![Account Creation & Privilege Escalation Sequence](./screenshots/week2-06-account-creation-4720.png)
+*Splunk showing EventCode 4720 (jsmith creating new account jdoe) followed immediately by EventCode 4732 (jdoe added to Administrators group)*
+
+![Multivalue Account_Name Field](./screenshots/week2-07-account-name-multivalue.png)
+*Raw Splunk event showing Account_Name field containing both creator (jsmith) and target (jdoe); using mvindex() to separate them*
 
 ### Task 5: Create First Splunk Alert
 
@@ -167,11 +167,13 @@ index=windows (EventCode=4720 OR EventCode=4732)
 
 **Result:** Alert now fires automatically when backdoor account is created; analyst can investigate without manual searching.
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk Alert Manager showing new alert enabled
-- [ ] Screenshot: Alert firing from ART account creation simulation
+**Alert Configuration & Execution:**
 
----
+![Splunk Alert Manager - New Alert Created](./screenshots/week2-08-alert-manager-config.png)
+*Splunk Alert Manager showing "Account Creation Suspicious Activity" alert with Real-time schedule, High severity, throttle per Computer*
+
+![Alert Firing from ART Simulation](./screenshots/week2-09-alert-fired-notification.png)
+*Alert notification triggered when Atomic Red Team T1136.001 simulates account creation and privilege escalation*
 
 ### Task 6: Fix Splunk Forwarder Permissions Issue
 
@@ -194,11 +196,13 @@ Get-LocalGroupMember -Group "Event Log Readers"
 
 **Result:** Splunk forwarder (running as jsmith) can now read and forward Security events
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Local Users and Groups → Event Log Readers (showing jsmith added)
-- [ ] Screenshot: Splunk search showing security events now flowing
+**Permission Configuration:**
 
----
+![Local Users and Groups - Event Log Readers](./screenshots/week2-10-event-log-readers-group.png)
+*Local Users and Groups showing jsmith added to Event Log Readers group on WS01*
+
+![Security Events Now Flowing in Splunk](./screenshots/week2-11-security-events-flowing.png)
+*Splunk search confirming Security event logs now flowing after jsmith account added to Event Log Readers*
 
 ## Key Learnings
 
@@ -213,8 +217,6 @@ Get-LocalGroupMember -Group "Event Log Readers"
 - **Throttling by Computer prevents duplicate alerts:** One alert per machine, not per event
 - **Splunk alerts integrate into SOC workflow:** Analysts get notified automatically; no need for manual searching
 
----
-
 ## Splunk Query Library
 
 | Detection | Query | Confidence |
@@ -222,8 +224,6 @@ Get-LocalGroupMember -Group "Event Log Readers"
 | Brute Force (5+ failures in 60s) | `index=windows EventCode=4625 \| eval user=mvindex(Account_Name,1) \| bucket _time span=60s \| stats count by _time, user, Source_Network_Address \| where count >= 5` | High |
 | Account Creation (clean) | `index=windows EventCode=4720 \| eval Who_Created=mvindex(Account_Name,0) \| eval Account_Created=mvindex(Account_Name,1) \| table _time, host, Who_Created, Account_Created` | High |
 | Account Escalation Correlated | `index=windows (EventCode=4720 OR EventCode=4732) \| table _time, Computer, EventCode, Account_Name, SAM_Account_Name \| sort _time` | Very High |
-
----
 
 ## Troubleshooting Reference
 
@@ -233,8 +233,6 @@ Get-LocalGroupMember -Group "Event Log Readers"
 | EventCode 4720 not appearing | Account Management audit not enabled | Enable via GPO → Audit Account Management, run gpupdate /force |
 | Account_Name shows blank | SID not resolved quickly | Pair with SAM_Account_Name field; use mvindex for manual extraction |
 | Splunk forwarder can't read Security log | Account lacks permissions | Add account to Event Log Readers group; can use GPO for domain-wide application |
-
----
 
 ## Next Steps (Week 3)
 
@@ -246,8 +244,10 @@ Week 3 builds **Active Directory attack detection:**
 
 **Detection pipeline now mature; ready for advanced AD attacks.**
 
----
-
 **Week 2 Status:** ✅ COMPLETE  
-**Confidence:** 4/10 (detection queries working, alert framework in place)  
-**Next Session:** May 19-20, 2026 (Week 3)
+**Confidence:** 4/10 (detection queries working, alert framework in place)
+
+## Navigation
+
+← [Back to Main SOC Lab Overview](../README.md)  
+[Week 3: Active Directory Detection →](../Week3-Active-Directory/README.md)

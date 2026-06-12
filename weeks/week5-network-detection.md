@@ -5,15 +5,11 @@
 **Duration:** ~3 hours  
 **Confidence After:** 4-5/10 — PFSense baseline, frequency analysis, network detection
 
----
-
 ## Overview
 
 Week 5 focuses on **network-layer threat detection** using PFSense firewall logs. We detect port scans, host discovery sweeps, DNS exfiltration, and C2 beaconing through frequency analysis and behavioral anomalies.
 
 **Key Outcome:** Detect T1046 (port scans), T1018 (host discovery), T1048.003 (DNS exfiltration), T1071.001 (C2 beaconing) from network traffic alone.
-
----
 
 ## PFSense Filterlog Format
 
@@ -27,8 +23,6 @@ rule,interface,reason,action,direction,ip_version,protocol,src_ip,dst_ip,src_por
 ```
 
 **Parsing Challenge:** TA-pfsense didn't parse this format correctly; created custom field extraction.
-
----
 
 ## Tasks Completed
 
@@ -77,9 +71,13 @@ index=pfsense
 
 **Result:** ✅ Detected 1002 unique ports in 60 seconds from single source
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Nmap command showing SYN scan progress
-- [ ] Screenshot: Splunk detection showing 1002 unique ports (dc(dst_port)=1002)
+**Port Scan Detection:**
+
+![Nmap SYN Scan in Progress](./screenshots/week5-01-nmap-syn-scan.png)
+*Nmap SYN scan (-sS) running from Kali against WS01 targeting ports 1-10000*
+
+![Splunk Port Scan Detection - 1002 Unique Ports](./screenshots/week5-02-port-scan-detection.png)
+*Splunk showing dc(dst_port)=1002 in 60-second window - clear port scanning pattern detected*
 
 ### Task 3: Detect Remote System Discovery / Host Sweep (T1018)
 
@@ -107,9 +105,13 @@ index=pfsense
 
 **Result:** ✅ Detected 765 unique IPs from single source (clear host discovery pattern)
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Nmap ping sweep command running
-- [ ] Screenshot: Splunk showing dc(dst_ip)=765 from attacker source
+**Host Sweep Detection:**
+
+![Nmap Ping Sweep Command](./screenshots/week5-03-nmap-ping-sweep.png)
+*Nmap ping sweep (-sn) running across all four lab subnets (10.10.10.0, 10.10.20.0, 10.10.30.0, 10.10.40.0)*
+
+![Splunk Host Sweep Detection - 765 Unique IPs](./screenshots/week5-04-host-sweep-detection.png)
+*Splunk showing dc(dst_ip)=765 in 60-second window from single source - flagged after filtering UDM Pro infrastructure noise*
 
 ### Task 4: Detect C2 Beaconing / Command and Control (T1071.001)
 
@@ -142,9 +144,13 @@ index=pfsense action=pass
 
 **Key Insight:** Beaconing is detected by **consistency**, not volume. 17 connections is low traffic but regular = suspicious.
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: curl loop running from Kali
-- [ ] Screenshot: Splunk showing count=17 connections in 5m window at regular intervals
+**C2 Beaconing Detection:**
+
+![Curl Loop C2 Simulation](./screenshots/week5-05-curl-c2-loop.png)
+*Terminal showing curl loop: `while true; do curl http://10.10.10.1:80/callback; sleep 15; done` - C2 callback every 15 seconds*
+
+![Splunk C2 Beaconing Pattern](./screenshots/week5-06-c2-beaconing.png)
+*Splunk showing count=17 connections same src-dst-port in 5m window with consistent 15-second intervals*
 
 ### Task 5: Build Network Activity Monitor Dashboard
 
@@ -159,10 +165,16 @@ index=pfsense action=pass
 
 **Result:** ✅ Professional dashboard ready for SOC analyst use
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Full Network Activity Monitor dashboard showing all 4 panels
-- [ ] Screenshot: C2 Beaconing panel highlighting malicious source IP
-- [ ] Screenshot: Port Scan panel showing 1002 unique ports detected
+**Dashboard Evidence:**
+
+![Network Activity Monitor - All 4 Panels](./screenshots/week5-07-network-monitor-dashboard.png)
+*Splunk Network Activity Monitor dashboard showing all 4 panels live - C2 Beaconing Candidates, Port Scan Detection, Host Sweep Detection, Top Talkers*
+
+![C2 Beaconing Panel - Malicious Source Highlighted](./screenshots/week5-08-c2-panel-malicious.png)
+*C2 Beaconing panel zoomed in showing detected malicious source IP (10.10.40.1 Kali) with regular connection pattern*
+
+![Port Scan Panel - 1002 Unique Ports](./screenshots/week5-09-port-scan-panel.png)
+*Port Scan Detection panel showing dc(dst_port)=1002 from Nmap attack - clear anomaly spike*
 
 ### Task 6: Key Observation: DHCP Attribution Issue
 
@@ -172,8 +184,6 @@ index=pfsense action=pass
 
 **Lesson:** Correlate DHCP logs when investigating historical network events; IPs can change mid-investigation
 
----
-
 ## Key Learnings
 
 - **Frequency is the detection lever for network anomalies:** Volume alone isn't suspicious (legitimate bulk transfers); regularity + consistency + unexpected destination = C2
@@ -181,8 +191,6 @@ index=pfsense action=pass
 - **Baselining infrastructure noise prevents false positives:** UDM Pro scanning network could have triggered alerts without exclusion rules
 - **Custom field extraction beats add-ons when they fail:** TA-pfsense didn't work; custom REPORT= extractor was faster than debugging
 - **Host discovery and port scans are distinct patterns:** Host sweep = many IPs; port scan = many ports; both use frequency analysis but different fields
-
----
 
 ## Splunk Queries Built
 
@@ -192,8 +200,10 @@ index=pfsense action=pass
 | Host Sweep (15+ IPs/60s) | dc(dst_ip) >= 15 | High |
 | C2 Beaconing (10+ connections/5m) | count >= 10 with regular intervals | Very High |
 
----
-
 **Week 5 Status:** ✅ COMPLETE  
-**Confidence:** 4-5/10 (network concepts solid, frequency analysis comfortable)  
-**Next Session:** June 7-10, 2026 (Week 6)
+**Confidence:** 4-5/10 (network concepts solid, frequency analysis comfortable)
+
+## Navigation
+
+← [Back to Main SOC Lab Overview](../README.md)  
+[Week 6: Threat Hunting →](../Week6-Threat-Hunting/README.md)

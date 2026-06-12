@@ -124,6 +124,6 @@ This lab demonstrates:
 
 ## Contact
 
-**GitHub:** [netcur10s](https://github.com/netcur10s)  
+**GitHub:** [github.com/netcur10s](https://github.com/netcur10s)  
 **LinkedIn:** [linkedin.com/in/vic1101](https://linkedin.com/in/vic1101)  
-**Email:** v.echevarria@proton.me
+**Email:** [v.echevarria@proton.me](mailto:v.echevarria@proton.me)

