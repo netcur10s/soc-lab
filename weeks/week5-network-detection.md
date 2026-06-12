@@ -206,4 +206,4 @@ index=pfsense action=pass
 ## Navigation
 
 ← [Back to Main SOC Lab Overview](../Readme.md)  
-[Week 6: Threat Hunting →](./Week6-Threat-Hunting.md)
+[Week 6: Threat Hunting →](./week6-threat-hunting.md)

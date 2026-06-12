@@ -250,4 +250,4 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 ## Navigation
 
 ← [Back to Main SOC Lab Overview](../Readme.md)  
-[Week 4: Linux Syslog →](./Week4-Linux-Syslog.md)
+[Week 4: Linux Syslog →](./week4-linux-syslog.md)

@@ -426,4 +426,4 @@ index=windows EventCode=4624 host=DC01
 ## Navigation
 
 ← [Back to Main SOC Lab Overview](../Readme.md)  
-[Week 7: SIEM Alerting →](./Week7-SIEM-Alerting.md)
+[Week 7: SIEM Alerting →](./week7-siem-alerting.md)
