@@ -45,7 +45,7 @@ PFSense Firewall (192.168.40.13/24)
 - **Endpoint Detection:** Sysmon, auditd
 - **Attack Simulation:** Atomic Red Team, Metasploit
 - **Network Visibility:** PFSense, Wireshark
-- **OS:** Windows Server 2022, Windows 10/11, Ubuntu, Kali Linux
+- **OS:** Windows Server 2022, Windows 11, Ubuntu, Kali Linux
 
 ## 8-Week Curriculum
 
@@ -121,9 +121,3 @@ This lab demonstrates:
 ✅ **Incident investigation flow** — Alert validation → baselining → simulation → analysis → documentation  
 ✅ **Linux & Windows forensics** — Understand OS-level logging and attack surfaces  
 ✅ **Network security** — Firewall analysis, DNS monitoring, C2 detection  
-
-## Contact
-
-**GitHub:** [github.com/netcur10s](https://github.com/netcur10s)  
-**LinkedIn:** [linkedin.com/in/vic1101](https://linkedin.com/in/vic1101)  
-**Email:** [v.echevarria@proton.me](mailto:v.echevarria@proton.me)
