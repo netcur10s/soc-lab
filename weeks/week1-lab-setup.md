@@ -32,12 +32,12 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
 
 **Verification in Splunk:**
 
-![Splunk Forwarders Connected](./screenshots/week1-01-forwarder-settings.png)
+![Splunk Forwarders Connected](../images/screenshots/week1-01-forwarder-settings.png)
 *Splunk Settings → Data Inputs → Forwarding and Receiving showing WS01, WS02, DC01 connected*
 
 Query all events flowing into windows index:
 
-![Windows Index Events by Host](./screenshots/week1-02-windows-index-count.png)
+![Windows Index Events by Host](../images/screenshots/week1-02-windows-index-count.png)
 *Splunk search: `index=windows | stats count by host` showing all 3 hosts forwarding successfully*
 
 
@@ -74,10 +74,10 @@ Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Select-Object Id 
 
 **Verification:**
 
-![Sysmon Events in Event Viewer](./screenshots/week1-03-event-viewer-sysmon.png)
+![Sysmon Events in Event Viewer](../images/screenshots/week1-03-event-viewer-sysmon.png)
 *Windows Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon/Operational showing EventCode 1 entries*
 
-![Sysmon Process Creation in Splunk](./screenshots/week1-04-splunk-sysmon-eventcode1.png)
+![Sysmon Process Creation in Splunk](../images/screenshots/week1-04-splunk-sysmon-eventcode1.png)
 *Splunk search: `index=windows EventCode=1 | head 20` showing process creation with ParentImage, Image, CommandLine, User*
 
 
@@ -121,10 +121,10 @@ w32tm /resync /force
 
 **Verification:**
 
-![NTP Status on WS01](./screenshots/week1-05-w32tm-query-status.png)
+![NTP Status on WS01](../images/screenshots/week1-05-w32tm-query-status.png)
 *PowerShell: `w32tm /query /status` showing Leap Indicator, Stratum, Reference Clock, Precision*
 
-![Splunk Timeline with Correct Order](./screenshots/week1-06-splunk-timeline-correct.png)
+![Splunk Timeline with Correct Order](../images/screenshots/week1-06-splunk-timeline-correct.png)
 *Splunk dashboard showing events in correct chronological order (no backwards time jumps)*
 
 **Result:** All machines now within 1 second of each other; Splunk events appear in correct chronological order.
@@ -143,12 +143,12 @@ w32tm /resync /force
 
 **Configuration:**
 
-![Group Policy Editor - Audit Process Creation](./screenshots/week1-07-gpedit-audit-policy.png)
+![Group Policy Editor - Audit Process Creation](../images/screenshots/week1-07-gpedit-audit-policy.png)
 *Group Policy Management Editor showing "Audit Process Creation" configured for Success and Failure*
 
 **Result in Splunk:**
 
-![EventCode 4688 in Splunk](./screenshots/week1-08-splunk-eventcode4688.png)
+![EventCode 4688 in Splunk](../images/screenshots/week1-08-splunk-eventcode4688.png)
 *Splunk search: `index=windows EventCode=4688 | stats count by host` showing process audit on all domain machines*
 
 
@@ -166,12 +166,12 @@ w32tm /resync /force
 
 **Attack Simulation:**
 
-![Atomic Red Team PowerShell Execution](./screenshots/week1-09-art-powershell-command.png)
+![Atomic Red Team PowerShell Execution](../images/screenshots/week1-09-art-powershell-command.png)
 *PowerShell: `Invoke-AtomicTest T1059.001 -TestNumbers 1` running on WS01*
 
 **Detection Result:**
 
-![PowerShell Execution Detected in Splunk](./screenshots/week1-10-splunk-powershell-detection.png)
+![PowerShell Execution Detected in Splunk](../images/screenshots/week1-10-splunk-powershell-detection.png)
 *Splunk showing Sysmon EventCode 1: powershell.exe spawned by explorer.exe with full CommandLine visibility*
 
 **Result:** ✅ Full detection pipeline working end-to-end: Attack → Sysmon captures → Forwarder sends → Splunk indexes → Searchable
@@ -187,7 +187,7 @@ w32tm /resync /force
 
 **Baseline Observation:**
 
-![Bloodhound Enumeration Baseline](./screenshots/week1-11-splunk-bloodhound-spike.png)
+![Bloodhound Enumeration Baseline](../images/screenshots/week1-11-splunk-bloodhound-spike.png)
 *Splunk: `index=windows EventCode=4624 Logon_Type=3 | stats count by Workstation_Name` showing massive enumeration activity from single source*
 
 **Significance:** This is a **false positive baseline** that we'll filter out in Week 3 when building AD detection rules.
