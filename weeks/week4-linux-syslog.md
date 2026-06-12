@@ -202,5 +202,5 @@ sudo apt --fix-broken install -y
 
 ## Navigation
 
-← [Back to Main SOC Lab Overview](../README.md)  
-[Week 5: Network Detection →](../Week5-Network-Detection/README.md)
+← [Back to Main SOC Lab Overview](../Readme.md)  
+[Week 5: Network Detection →](./Week5-Network-Detection.md)

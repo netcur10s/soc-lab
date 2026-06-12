@@ -264,5 +264,5 @@ Week 2 builds on this foundation to detect actual attacks:
 
 ## Navigation
 
-← [Back to Main SOC Lab Overview](../README.md)  
-[Week 2: Windows Event Log Analysis →](../Week2-Windows-Events/README.md)
+← [Back to Main SOC Lab Overview](../Readme.md)  
+[Week 2: Windows Event Log Analysis →](./Week2-Windows-Events.md)
