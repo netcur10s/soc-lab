@@ -20,15 +20,11 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
 **Steps:**
 1. Downloaded Splunk Universal Forwarder from splunk.com
 2. Installed on WS01, WS02, DC01 with deployment server pointing to Splunk indexer (10.10.20.3)
-   - Splunk Settings → Data Inputs → Forwarding and Receiving (showing forwarder list)
-   ![Splunk Forwarders Connected](../images/screenshots/week1/inputs_recieving.png)
-   - Splunk Search → `index=windows | stats count by host` (showing all 3 hosts)
-   ![Splunk Forwarders Connected](../images/screenshots/week1/check_hosts.png)
 3. Configured `inputs.conf` to forward:
    - Windows Security Event Log → index=windows
    - Sysmon logs → index=windows
    - Active Directory event logs → index=windows
-
+   
 **Key Issue Encountered:**
 - **Problem:** Events were landing in `index=main` instead of `index=windows`
 - **Root Cause:** Conflicting `inputs.conf` files; forwarder was using default routing
@@ -64,10 +60,9 @@ Get-Service | Select-Object Name, Status | findstr /I sysmon
 # Check event logs
 Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Select-Object Id | Group-Object Id | Sort-Object Count -Descending
 ```
-
-**Screenshot Placeholders:**
-- [ ] Screenshot: Windows Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon/Operational (showing EventCode 1 entries)
-- [ ] Screenshot: Splunk Search → `index=windows EventCode=1 | head 20` (showing process creation events with ParentImage, CommandLine)
+- Windows Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon/Operational (showing EventCode 1 entries)
+![]()
+- Splunk Search → `index=windows EventCode=1 | head 20` (showing process creation events with ParentImage, CommandLine)
 
 ### Task 3: Configure Network Time Protocol (NTP) Hierarchy
 
@@ -97,8 +92,9 @@ w32tm /resync /force
 # Verify sync
 w32tm /query /status
 ```
+![running command w32tm /query /status](../images/screenshots/week1/w32tm_status.png)
 
-**Steps on WS01, WS02 (Windows 10/11):**
+**Steps on WS01, WS02 (Windows 11):**
 ```powershell
 # Set to sync with DC01
 w32tm /config /manualpeerlist:"10.10.10.3" /syncfromflags:manual /reliable:yes /update
@@ -106,12 +102,9 @@ net stop w32time
 net start w32time
 w32tm /resync /force
 ```
+![splunk time line in correct order](../images/screenshots/week1/splunk_timeline_in_order.png)
 
 **Result:** All machines now within 1 second of each other; Splunk events appear in correct chronological order.
-
-**Screenshot Placeholders:**
-- [ ] Screenshot: PowerShell → `w32tm /query /status` output (showing sync status on WS01)
-- [ ] Screenshot: Splunk → Dashboard showing timeline events in correct order (no backwards jumps)
 
 ### Task 4: Enable Audit Policy for Process Creation
 
@@ -120,15 +113,14 @@ w32tm /resync /force
 **Steps:**
 1. Opened `gpedit.msc` on DC01
 2. Navigated to: Computer Configuration → Policies → Windows Settings → Security Settings → Advanced Audit Policy Configuration → Audit Policies → Detailed Tracking → Audit Process Creation
+![enable audit process creation](../images/screenshots/week1/audit_process_creation.png)
 3. Set to: **Success and Failure**
 4. Applied group policy with: `gpupdate /force`
 5. Verified logs appearing on WS01, WS02
 
 **Result:** EventCode 4688 now visible in Splunk for all processes spawned on domain-joined machines.
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: gpedit.msc → Audit Process Creation policy set to Success + Failure
-- [ ] Screenshot: Splunk → `index=windows EventCode=4688 | stats count by host`
+![EventCode 4688 now visible in Splunk](../images/screenshots/week1/eventcode_4688_visible.png)
 
 ### Task 5: Run First Detection Simulation (Atomic Red Team)
 
@@ -151,10 +143,6 @@ index=windows EventCode=1 Image="*powershell*"
 | sort -_time
 ```
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk → PowerShell execution event from ART (showing timestamp, Image, CommandLine)
-- [ ] Screenshot: Command prompt showing `Invoke-AtomicTest` execution
-
 ### Task 6: Observe Active Directory Enumeration (Bloodhound/SharpHound)
 
 **Objective:** Note that AD enumeration tools generate high volumes of network logons; establish baseline for Week 3 detection
@@ -164,10 +152,9 @@ index=windows EventCode=1 Image="*powershell*"
 - DC01 received 10,000+ EventCode 4624 (successful logons) from same source in 5 minutes
 - Result: EventCode 4624 Logon_Type=3 (network) flood from enumeration
 
-**Significance:** This is a **false positive baseline** that we'll filter out in Week 3 when building AD detection rules.
+![blood hound enumeartion detected](../images/screenshots/week1/bloudhound_enumeration_detected.png)
 
-**Screenshot Placeholders:**
-- [ ] Screenshot: Splunk → `index=windows EventCode=4624 Logon_Type=3 | stats count by Workstation_Name` (showing Bloodhound enumeration spike)
+**Significance:** This is a **false positive baseline** that we'll filter out in Week 3 when building AD detection rules.
 
 ## Architecture Diagram
 

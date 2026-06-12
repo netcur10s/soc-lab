@@ -78,18 +78,6 @@ PFSense Firewall (192.168.40.13/24)
 | T1018 | Remote System Discovery | Discovery | PFSense filterlog (ping sweep) | ✅ |
 | T1071.001 | C2 Beaconing | Command and Control | PFSense frequency analysis | ✅ |
 
-## Quick Links
-
-**By Week:**
-- [Week 1: Lab Setup](weeks/week1-lab-setup.md) — Forwarders, Sysmon, NTP, audit policy, first detection
-- [Week 2: Windows Events](weeks/week2-windows-events.md) — Brute force, account creation, GPO audit policy, Splunk alerts
-- [Week 3: Active Directory](weeks/week3-active-directory.md) — Kerberoasting, lateral movement, persistence, 5-panel dashboard
-- [Week 4: Linux Syslog](weeks/week4-linux-syslog.md) — SSH brute force, sudo escalation, cron persistence
-- [Week 5: Network Detection](weeks/week5-network-detection.md) — PFSense, port scans, host discovery, DNS exfiltration, C2 beaconing
-- [Week 6: Threat Hunting](weeks/week6-threat-hunting.md) — 3 hypothesis-driven hunts, behavioral anomaly detection, hunting dashboard
-- [Week 7: SIEM Alerting](weeks/week7-siem-alerting.md) — Automated alerts, correlation rules, playbooks (coming soon)
-- [Week 8: Capstone](weeks/week8-capstone.md) — Full attack chain detection, multi-stage correlation (coming soon)
-
 ## Key Learnings
 
 ### Technical Skills
