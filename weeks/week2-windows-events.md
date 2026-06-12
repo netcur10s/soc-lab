@@ -250,4 +250,4 @@ Week 3 builds **Active Directory attack detection:**
 ## Navigation
 
 ← [Back to Main SOC Lab Overview](../Readme.md)  
-[Week 3: Active Directory Detection →](./Week3-Active-Directory.md)
+[Week 3: Active Directory Detection →](./week3-active-directory.md)
