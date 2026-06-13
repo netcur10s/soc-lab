@@ -33,7 +33,7 @@ Week 1 focuses on building the **foundational infrastructure** for the entire la
 **Verification in Splunk:**
 
 ![Splunk Forwarders Connected](../images/screenshots/week1-01-forwarder-settings.png)
-*Splunk Settings → Data Inputs → Forwarding and Receiving showing recieving port set*
+*Splunk Settings → Data Inputs → Forwarding and Receiving showing receiving port set*
 
 Query all events flowing into windows index:
 
