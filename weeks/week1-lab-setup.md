@@ -182,7 +182,7 @@ w32tm /resync /force
 
 **Observation:**
 - Ran SharpHound AD enumeration tool from attacking machine
-- DC01 received 10,000+ EventCode 4624 (successful logons) from same source in 5 minutes
+- DC01 received 300+ EventCode 4624 (successful logons) from same source in 5 minutes
 - Result: EventCode 4624 Logon_Type=3 (network) flood from enumeration
 
 **Baseline Observation:**
