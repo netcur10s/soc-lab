@@ -4,9 +4,30 @@
 
 ## Project Overview
 
-This repository documents my journey building a **complete detection lab from scratch**, simulating an enterprise environment with Active Directory, vulnerable machines, and a full SIEM stack. The goal: detect real-world attack techniques mapped to the MITRE ATT&CK framework using Splunk, Sysmon, and Atomic Red Team.
+Built a segmented enterprise detection lab from scratch, simulating real-world attacks and detecting 13 MITRE ATT&CK techniques across Windows, Linux, and network layers using Splunk, Sysmon, Wazuh, and PFSense.
 
-**Key Outcome:** Progressing from detection engineering (Weeks 1–5) → threat hunting (Week 6) → automated alerting & incident response (Weeks 7–8).
+## What This Demonstrates
+
+| Activity | Transferable Skill |
+|---|---|
+| Wrote SPL queries detecting brute force, Kerberoasting, lateral movement | SIEM log analysis and alert development |
+| Built 2 Splunk dashboards tracking live attack telemetry | Security monitoring and visualization |
+| Simulated 13 ATT&CK techniques using Atomic Red Team | Understanding attacker TTPs |
+| Detected C2 beaconing and DNS exfiltration via PFSense | Network traffic analysis |
+| Documented findings in structured weekly writeups | Incident documentation |
+
+## For SOC Analyst Interviews
+
+This lab demonstrates:
+
+✅ **Log analysis at scale** — Can ingest, parse, aggregate, and correlate logs from multiple sources  
+✅ **Detection engineering** — Build rules for known IOCs (Kerberoasting, brute force, etc.)  
+✅ **Threat hunting** — Hypothesis-driven search for unknown attacks using behavioral anomalies  
+✅ **SIEM proficiency** — Splunk administration, dashboard design, alert tuning, correlation rules  
+✅ **MITRE ATT&CK framework** — Map real attacks to techniques and tactics  
+✅ **Incident investigation flow** — Alert validation → baselining → simulation → analysis → documentation  
+✅ **Linux & Windows forensics** — Understand OS-level logging and attack surfaces  
+✅ **Network security** — Firewall analysis, DNS monitoring, C2 detection 
 
 ## Lab Architecture
 
@@ -56,9 +77,9 @@ PFSense Firewall (192.168.40.13/24)
 | [**Week 3**](weeks/week3-active-directory.md) | Active Directory Attack Detection | ✅ Complete |
 | [**Week 4**](weeks/week4-linux-syslog.md) | Linux Syslog & Auditd | ✅ Complete |
 | [**Week 5**](weeks/week5-network-detection.md) | Network Detection (PFSense, DNS) | ✅ Complete |
-| [**Week 6**](weeks/Week6-threat-hunting.md) | Threat Hunting with MITRE ATT&CK | ✅ Complete |
+| [**Week 6**](weeks/week6-threat-hunting.md) | Threat Hunting with MITRE ATT&CK | ✅ Complete |
 | [**Week 7**](weeks/week7-siem-alerting.md) | SIEM Alerting & Correlation Rules | 🔜 Next |
-| [**Week 8**](weeks/Week8-capstone.md) | Capstone: Full Attack Chain Detection | ⏳ Planned |
+| [**Week 8**](weeks/week8-capstone.md) | Capstone: Full Attack Chain Detection | ⏳ Planned |
 
 ## MITRE ATT&CK Coverage (Weeks 1–6)
 
@@ -107,17 +128,4 @@ PFSense Firewall (192.168.40.13/24)
 | **Detection Queries Built** | 16+ |
 | **MITRE Techniques Detected** | 13 |
 | **Dashboards Created** | 2 (AD Health Monitor, Threat Hunting Control Center) |
-| **Confidence Level** | 6/10 — Strong grasp of detection engineering, behavioral hunting, and SIEM operations |
-
-## For SOC Analyst Interviews
-
-This lab demonstrates:
-
-✅ **Log analysis at scale** — Can ingest, parse, aggregate, and correlate logs from multiple sources  
-✅ **Detection engineering** — Build rules for known IOCs (Kerberoasting, brute force, etc.)  
-✅ **Threat hunting** — Hypothesis-driven search for unknown attacks using behavioral anomalies  
-✅ **SIEM proficiency** — Splunk administration, dashboard design, alert tuning, correlation rules  
-✅ **MITRE ATT&CK framework** — Map real attacks to techniques and tactics  
-✅ **Incident investigation flow** — Alert validation → baselining → simulation → analysis → documentation  
-✅ **Linux & Windows forensics** — Understand OS-level logging and attack surfaces  
-✅ **Network security** — Firewall analysis, DNS monitoring, C2 detection  
+| **Lab Status** | Active, updated weekly | 
