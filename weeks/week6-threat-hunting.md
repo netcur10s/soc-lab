@@ -4,6 +4,13 @@
 **Lab Environment:** Segmented 4-subnet lab with Splunk SIEM, Sysmon on Windows endpoints, PFSense firewall  
 **Skill Level:** Intermediate — Applied baselining, anomaly detection, and behavioral analysis
 
+## What This Week Demonstrates
+- Applied hypothesis-driven threat hunting methodology to detect unknown attacks beyond rule-based detection
+- Built three hunting queries covering obfuscated PowerShell execution, anomalous parent-child process chains, and off-hours authentication
+- Established clean baselines before hunting to prevent false positives and identify genuine anomalies
+- Documented false positive analysis and production deployment recommendations for each hunt
+- Consolidated all three hunts into a single Threat Hunting Control Center dashboard
+
 ## Overview
 
 This document captures **three advanced threat hunting techniques** developed and validated in a controlled lab environment. Each hunt uses hypothesis-driven methodology to detect behavioral anomalies that deviate from established baselines — the foundation of proactive threat hunting.

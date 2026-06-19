@@ -3,7 +3,13 @@
 **Date:** June 7, 2026  
 **Difficulty:** Intermediate  
 **Duration:** ~3 hours  
-**Confidence After:** 4-5/10 — PFSense baseline, frequency analysis, network detection
+
+## What This Week Demonstrates
+- Detected port scanning and host discovery using frequency analysis on PFSense firewall logs
+- Identified C2 beaconing through connection consistency patterns rather than volume thresholds
+- Built custom field extraction for PFSense filterlog after the standard add-on failed to parse correctly
+- Filtered infrastructure noise from results to eliminate false positives before tuning alert thresholds
+- Built a 4-panel Network Activity Monitor dashboard covering scans, sweeps, and beaconing in real time
 
 ## Overview
 
@@ -201,7 +207,6 @@ index=pfsense action=pass
 | C2 Beaconing (10+ connections/5m) | count >= 10 with regular intervals | Very High |
 
 **Week 5 Status:** ✅ COMPLETE  
-**Confidence:** 4-5/10 (network concepts solid, frequency analysis comfortable)
 
 ## Navigation
 

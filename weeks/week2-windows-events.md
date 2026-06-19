@@ -3,7 +3,12 @@
 **Date:** May 16-19, 2026  
 **Difficulty:** Beginner  
 **Duration:** ~4.5 hours  
-**Confidence After:** 4/10 — GPO audit policy, EventCode detection, Splunk alerting
+
+## What This Week Demonstrates
+- Built threshold-based detection queries for brute force and account creation using Windows Event IDs
+- Configured domain-wide audit policy via Group Policy to ensure consistent log coverage across all endpoints
+- Created first automated Splunk alert that fires on suspicious account activity without manual searching
+- Identified and resolved a Splunk forwarder permissions issue blocking Security event log collection
 
 ## Overview
 
@@ -245,7 +250,6 @@ Week 3 builds **Active Directory attack detection:**
 **Detection pipeline now mature; ready for advanced AD attacks.**
 
 **Week 2 Status:** ✅ COMPLETE  
-**Confidence:** 4/10 (detection queries working, alert framework in place)
 
 ## Navigation
 

@@ -3,7 +3,13 @@
 **Date:** May 19 - June 2, 2026  
 **Difficulty:** Beginner-Intermediate  
 **Duration:** ~4 hours  
-**Confidence After:** 6/10 — Multi-stage attack detection, PFSense pipeline, Splunk dashboards
+
+## What This Week Demonstrates
+- Detected Kerberoasting by identifying RC4 encryption requests in Kerberos ticket logs
+- Built correlated detection covering lateral movement, scheduled task persistence, and account escalation
+- Configured PFSense firewall to forward logs to Splunk enabling network-layer detection alongside endpoint telemetry
+- Detected DNS exfiltration using dual-source correlation between Sysmon and PFSense logs
+- Built a 5-panel AD Health Monitor dashboard for operational visibility without manual querying
 
 ## Overview
 
@@ -245,7 +251,6 @@ index=pfsense dst_port=53 dst_ip="attacker_ns_ip"
 | DNS Exfiltration (Base64 + NXDOMAIN) | High |
 
 **Week 3 Status:** ✅ COMPLETE (T1003.001 deferred to Week 6)  
-**Confidence:** 6/10
 
 ## Navigation
 

@@ -3,7 +3,13 @@
 **Date:** June 2-3, 2026  
 **Difficulty:** Intermediate  
 **Duration:** ~3 hours  
-**Confidence After:** 4-5/10 — New log ecosystem, lots of surface area
+
+## What This Week Demonstrates
+- Extended detection coverage to Linux endpoints using syslog and auditd log sources
+- Detected SSH brute force using regex-based field extraction on raw auth.log entries
+- Identified privilege escalation by extracting full sudo command context including target user and command executed
+- Detected cron-based persistence by monitoring CRON CMD entries firing at regular intervals
+- Resolved a Linux package conflict to restore Hydra functionality for attack simulation
 
 ## Overview
 
@@ -198,7 +204,6 @@ sudo apt --fix-broken install -y
 | Failed Auth Anomalies | Auditd LOGIN events | Medium |
 
 **Week 4 Status:** ✅ COMPLETE  
-**Confidence:** 4-5/10 (new ecosystem, comfortable with core techniques)
 
 ## Navigation
 

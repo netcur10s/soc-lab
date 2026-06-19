@@ -3,7 +3,12 @@
 **Date:** May 13, 2026  
 **Difficulty:** Beginner  
 **Duration:** ~6 hours  
-**Confidence After:** 3/10 — Can complete tasks with guidance; improving with repetition
+
+## What This Week Demonstrates
+- Configured a multi-endpoint Splunk log pipeline across three Windows hosts from scratch
+- Deployed Sysmon for full process-level telemetry including command line and parent process visibility
+- Ran first end-to-end attack simulation with Atomic Red Team and confirmed detection in SIEM
+- Resolved real production-style issues including log routing conflicts, service permissions, and NTP synchronization
 
 ## Overview
 
@@ -258,7 +263,6 @@ Week 2 builds on this foundation to detect actual attacks:
 
 
 **Week 1 Status:** ✅ COMPLETE  
-**Confidence:** 3/10 (foundation is solid, will improve with repetition)
 
 ---
 
